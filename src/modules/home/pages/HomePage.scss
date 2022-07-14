@@ -1,0 +1,385 @@
+#home-page {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--header-height);
+    padding: 50px 30px 100px;
+    background-color: var(--background-color);
+    color: #fff;
+    margin-left: var(--sidebar-width);
+    height: 100%;
+    min-height: 100vh;
+
+    .btn-add-user {
+        width: 150px;
+        padding: 5px 20px;
+        background-color: var(--button-color);
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 20px;
+
+        &:hover {
+            color: rgba($color: #000000, $alpha: 0.3);
+        }
+    }
+
+    input {
+        background-color: var(--background-color);
+        border: var(--primary-color);
+        color: #fff!important ;
+    }
+
+
+    table {
+        color: #fff;
+        margin-bottom: 0;
+
+        .header-table {
+            border-bottom: 2px solid rgba($color: #000000, $alpha: 0.3);
+            padding: 15px;
+            font-weight: 600;
+            font-size: 16px;
+
+            .sort {
+                &:hover {cursor: pointer;}
+            }
+        }
+
+        .wrapper-check-box-delete {
+            padding: 0 5px;
+            border-right: 1px dashed #fff;
+
+            .wrapper-power-off {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+        }
+
+        tr {
+            background-color: var(--primary-color);
+            padding: 5px 10px;
+            border-bottom: 2px solid rgba($color: #000000, $alpha: 0.3);
+
+            .check-box-delete {
+                padding: 30px 10px;
+            }
+
+            td {
+                padding: 15px;
+
+                .detail-user {
+                    cursor: pointer;
+                    color: #007bff!important;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    .modal {
+
+        .modal-content {
+            background-color: var(--primary-color);
+
+            .modal-header {
+                h5 {
+                    color: #fff;
+                    font-size: 18px;
+                }
+                border-bottom: 2px solid rgba($color: #000000, $alpha: 0.3);
+            }
+            .modal-body {
+                p {
+                    font-size: 16px;
+                }
+            }
+            .modal-footer{
+                border-top: 2px solid rgba($color: #000000, $alpha: 0.3);
+
+
+            }
+        }
+        
+    }
+
+    .btn-delete {
+        cursor: pointer;
+        background-color: var(--button-color);
+        border-radius: 5px;
+        padding: 5px 10px;
+        max-width: 32px;
+    }
+
+    .pagination {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        margin-bottom: 0;
+        background-color: var(--primary-color);
+        span {
+            font-weight: bold;
+        }
+
+        .select-per-page {
+            background-color: var(--button-color);
+            padding: 5px 10px;
+        }
+
+        li a {
+            padding: 5px 5px;
+        }
+
+        li {
+            padding: 5px 10px;
+            background-color: var(--primary-color);
+            border: 1px solid var(--background-color);
+    
+            &:hover {
+                background-color: var(--button-color);
+            }
+        }
+
+        .selected {
+            background-color: var(--button-color);
+
+            a{
+                color: #fff;
+            }
+        }
+        .next a,
+        .previous a{
+            color: #fff;
+            text-decoration: none!important;
+        }
+
+        .next.disabled a,
+        .previous.disabled a {
+            color: #ccc!important;
+        }
+    }
+
+    .modal.active {
+        display: block;
+    }
+
+    .modal-multi-delete {
+        display: none;
+    }
+
+    .modal-multi-delete.active {
+        display: block;
+    }
+
+    .form-filter {
+        position: relative;
+        
+        .form-filter-show {
+            display: flex;
+            flex: 10;
+            justify-content: center;
+            align-items:flex-start;
+            gap: 5px;
+            background-color: var(--primary-color);
+            padding: 10px 20px;
+            margin-bottom: 2px;
+    
+           
+    
+            .btn-search {
+                height: 38px;
+                width: 120px;
+                margin-top: 30px;
+                background-color: var(--button-color);
+            }
+        }
+    
+        .form-filter-hidden {
+            width: 100%;
+            background-color: var(--primary-color);
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            transition: transform 0.3s, opacity 0.3s;
+            display: none;
+
+
+            &.show {
+            display: flex;
+            }
+            
+            .field-filter-form {
+                // display: none;
+    
+                .item-filter {
+                    display: flex;
+                    gap: 20px;
+    
+                    .wraper-input-filter {
+                        width: 250px;
+                    }
+    
+    
+                    .wraper-search-in {
+                        margin-top: 2px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px!important;
+    
+                        div {
+                            display: flex;
+                            gap: 5px;
+    
+                            p {
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+                &.show {
+                    display: flex;
+                    padding-right: 40px;
+                }
+            }
+    
+            .left-filter-form, .right-filter-form {
+                padding: 20px 40px;
+                flex: 1;
+                display: none;
+                flex-direction: column;
+                gap: 20px;
+                transition: all 2s;
+    
+    
+                &.show {
+                display: flex;
+                padding: 10px 20px;
+                }
+    
+                .item-filter {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 30px;
+    
+                    label {
+                        flex: 1;
+                    }
+    
+                    .wraper-input-filter {
+                        flex: 4;    
+                    }
+                }
+            }
+            .right-filter-form {
+                flex: 2;
+                margin-left: 60px;
+    
+                .date-selector {
+                    width: 50%;
+                }
+            }
+        }
+
+        .sortcut-form {
+            left: 50%;
+            position: absolute;
+            background-color: var(--primary-color);
+            padding: 10px 25px;
+            border-radius: 10px;
+            bottom: -16px;
+
+            &:hover {cursor: pointer;}
+        }
+    }
+
+
+    
+
+    .footer {
+        position: fixed;
+        width: 80.3%;
+        margin-top: 10px;
+        // margin-right: 30px;
+        padding: 20px 20px;
+        background-color: var(--primary-color);
+        bottom: 0;
+        box-shadow: 0 0 13px 0 #b18aff;
+
+        .btn-multi-delete {
+            padding: 10px 20px;
+            background-color: #f0ad4e;
+            border: none;
+            border-radius: 5px;
+            font-size: 17px;
+            font-weight: 400;
+        }
+    }
+}
+
+.select__control  {
+    background-color: var(--background-color)!important;
+    border: var(--primary-color)!important;
+}
+
+.select__option {
+    &:hover {
+        background-color: rgba($color: #000000, $alpha: 0.3);
+    }
+}
+
+.select__placeholder {
+    color: #fff!important;
+}
+
+.select__menu, #react-select-5-listbox, .css-1s2u09g-control,
+.css-1pahdxg-control, #react-select-7-listbox,
+#react-select-9-input, #react-select-9-listbox,
+#react-select-17-listbox, #react-select-11-listbox, .css-2613qy-menu {
+    color: #fff!important;
+    background-color: var(--background-color)!important;
+    border: var(--primary-color)!important;
+}
+
+
+.css-14el2xx-placeholder {
+    z-index: 10;
+
+}
+
+.css-qc6sy-singleValue {
+    z-index: 10;
+}
+
+.css-xb97g8 {
+    border-radius: 0!important;
+}
+
+.css-qc6sy-singleValue {
+    color: #fff!important;
+    input {
+        color: #fff!important;
+    }
+}
+
+.css-14el2xx-placeholder {
+    padding: 0 5px;
+}
+
+.ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    padding: 3.5px;
+}
+
+.ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border: 2px solid black;
+    border-radius: 5px;
+}

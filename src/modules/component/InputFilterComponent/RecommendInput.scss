@@ -1,0 +1,38 @@
+.search-vendor {
+    position: relative;
+
+    input {
+        
+    }
+
+    .list-vendor {
+        list-style: none;
+        background-color: var(--background-color);
+        padding: 0;
+        position: absolute;
+        top: 37px;
+        border-radius: 5px;
+        max-height: 300px;
+        overflow-y: scroll;
+
+        li {
+            padding: 10px 10px;
+            max-width: 310px;
+            min-width: 310px;
+            &:hover {
+                background-color: rgba($color: #000000, $alpha: 0.3);
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba($color: #000000, $alpha: 0.7);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--button-color);
+    border-radius: 5px;
+}

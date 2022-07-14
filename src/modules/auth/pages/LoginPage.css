@@ -1,0 +1,17 @@
+.wrapper-login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 150px;
+  height: 100%;
+  flex-direction: column;
+}
+
+.error-input {
+  border: 1px solid red !important;
+}
+
+.wrapper-login-page img {
+  height: auto;
+  width: auto;
+}

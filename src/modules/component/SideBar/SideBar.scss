@@ -1,0 +1,23 @@
+.side-bar {
+    padding-top: var(--header-height);
+    background-color: var(--primary-color);
+    height: 100vh;
+    flex: 1;
+    position: fixed;
+    width: var(--sidebar-width);
+
+    h1, a {
+        color: #fff;
+    }
+
+    .item-side-bar {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 20px;
+        border-top: 1px solid black ;
+    }
+
+    .active {
+        color: var(--button-color);
+    }
+}

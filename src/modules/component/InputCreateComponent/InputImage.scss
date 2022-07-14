@@ -1,0 +1,43 @@
+.wrapper-input-image {
+    display: flex;
+    flex: 4;
+    flex-wrap: wrap;
+
+    .wrapper-image {
+        width: auto ;
+        height: 125px;
+        margin-right: 10px;
+        display: flex;
+        margin-bottom: 10px;
+        position: relative;
+
+        img {
+            width: 130px;
+            height: 100%;
+        }
+
+        span {
+            position: absolute;
+            right: 0;
+            padding: 0px 6px;
+            background-color: #ccc;
+            border-radius: 50%;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    .label-select-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        label {
+            border: 1px dashed #fff;
+            padding: 10px 10px;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}

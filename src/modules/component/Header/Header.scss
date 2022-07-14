@@ -1,0 +1,97 @@
+#header {
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    height: var(--header-height);
+    background-color: var(--primary-color);
+    box-shadow: 0 0.5rem 1rem 0 #1a1f33;
+    position: fixed;
+    width: 100%;
+    align-items: center;
+    color: #fff;
+
+    .header-bars {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        padding-right: 10px;
+        border-right: 1px solid black;
+        svg {
+            cursor: pointer;
+            font-size: 20px;
+            color: rgba($color: #ffff, $alpha: 0.6);
+            &:hover {
+                color: rgba($color: #ffff, $alpha: 1.0);
+            }
+        }
+
+        
+    }
+    .header-title {
+        flex: 16;
+        h3 {
+            margin: 0;
+            color: #fff;
+        }
+    }
+    .header-profile {
+        position: relative;
+        flex: 1;
+        .user {
+            cursor: pointer;
+            svg {
+                color: rgba($color: #ffff, $alpha: 0.6);
+            }
+            &:hover {
+                svg {
+                    color: rgba($color: #ffff, $alpha: 1.0);
+                }
+            }
+        }
+
+        &:hover {
+            .actions-user {
+                display: block;
+            }
+        }
+
+        .actions-user {
+            display: none;
+            position: absolute;
+            top: 30px;
+            right: 65px;
+            background-color: #ffff;
+            width: auto;
+            height: auto;
+            border-radius: 10px;
+
+            .holder {
+                position: absolute;
+                top: -30px;
+                width: 100%;
+                background-color: rgba($color: #ffff, $alpha: 0);
+                height: 50px;
+            }
+
+            &:hover {
+                display: block;
+            }
+
+            li {
+                padding: 10px 20px;
+                list-style: none;
+                color: #000;
+
+                p {
+                    margin: 0;
+                }
+
+                &:hover {
+                    color: rgb(57, 103, 255);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+}
