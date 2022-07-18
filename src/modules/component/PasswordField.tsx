@@ -12,16 +12,12 @@ const PasswordField = (props: Props) => {
   const { error, isToached } = props;
 
   return (
-    <div>
-      <label htmlFor="inputEmail" className="form-label">
-        <FormattedMessage id="password" />
-      </label>
+    <div className="password-field">
       <Field
         type="password"
         name="password"
         placeholder="Enter your password"
         className={`form-control ${error && isToached && 'error-input'}`}
-        id="inputEmail"
       />
       {error && isToached && <div className="input-feedback">{error}</div>}
     </div>

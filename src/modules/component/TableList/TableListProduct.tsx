@@ -204,7 +204,7 @@ const TableListProduct = (props: Props) => {
                   </NavLink>
                 </td>
                 <td>{item.category}</td>
-                <td>{`$${item.price}`}</td>
+                <td>{`$${parseFloat(item.price).toFixed(2)}`}</td>
                 <td>{item.amount}</td>
                 <td>
                   <NavLink

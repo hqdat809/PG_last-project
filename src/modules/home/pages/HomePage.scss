@@ -200,6 +200,7 @@
         }
     
         .form-filter-hidden {
+
             width: 100%;
             background-color: var(--primary-color);
             margin-bottom: 20px;
@@ -214,6 +215,7 @@
             
             .field-filter-form {
                 // display: none;
+                margin-right: 20px;
     
                 .item-filter {
                     display: flex;
@@ -264,7 +266,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    gap: 30px;
+                    grid-gap: 10px!important;
     
                     label {
                         flex: 1;
@@ -321,65 +323,41 @@
     }
 }
 
-.select__control  {
-    background-color: var(--background-color)!important;
-    border: var(--primary-color)!important;
-}
+// css select field
+.react-select-container {
+    .react-select__control  {
+        background-color: var(--background-color)!important;
+        border: var(--primary-color)!important;
 
-.select__option {
-    &:hover {
-        background-color: rgba($color: #000000, $alpha: 0.3);
+        .react-select__value-container {
+
+            .react-select__multi-value__remove {
+                svg {
+                    color: #f0ad4e;
+                }
+            }
+
+            .react-select__single-value {
+                color: #fff,
+            }
+
+            .react-select__input-container {
+                color: #fff;
+                input {
+                    
+                }
+            }
+        }
     }
-}
 
-.select__placeholder {
-    color: #fff!important;
-}
-
-.select__menu, #react-select-5-listbox, .css-1s2u09g-control,
-.css-1pahdxg-control, #react-select-7-listbox,
-#react-select-9-input, #react-select-9-listbox,
-#react-select-17-listbox, #react-select-11-listbox, .css-2613qy-menu {
-    color: #fff!important;
-    background-color: var(--background-color)!important;
-    border: var(--primary-color)!important;
-}
-
-
-.css-14el2xx-placeholder {
-    z-index: 10;
-
-}
-
-.css-qc6sy-singleValue {
-    z-index: 10;
-}
-
-.css-xb97g8 {
-    border-radius: 0!important;
-}
-
-.css-qc6sy-singleValue {
-    color: #fff!important;
-    input {
-        color: #fff!important;
+    .react-select__menu {
+        background-color: #fff!important;
+        color: #000;
+        z-index: 11;
+        .react-select__menu-list > * {
+            &:hover {
+                background-color:  rgba($color: #000000, $alpha: 0.5);
+            }
+        }
     }
-}
-
-.css-14el2xx-placeholder {
-    padding: 0 5px;
-}
-
-.ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    padding: 3.5px;
-}
-
-.ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    border: 2px solid black;
-    border-radius: 5px;
-}
-
-.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    border: 2px solid black;
-    border-radius: 5px;
 }

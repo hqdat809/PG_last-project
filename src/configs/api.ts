@@ -22,4 +22,12 @@ function getBaseUrl(service: APIService) {
 export const API_PATHS = {
   signIn: `${getBaseUrl(APIService.api)}/authentication/login`,
   userProfile: `${getBaseUrl(APIService.public)}/user`,
+  listUser: `${getBaseUrl(APIService.apiAdmin)}/users/list`,
+  editUser: `${getBaseUrl(APIService.apiAdmin)}/users/edit`,
+  listBrand: `${getBaseUrl(APIService.apiAdmin)}/brands/list`,
+  listRole: `${getBaseUrl(APIService.apiAdmin)}/commons/role`,
+  listCountry: `${getBaseUrl(APIService.apiAdmin)}/commons/country`,
+  createProduct: `${getBaseUrl(APIService.apiAdmin)}/products/create`,
+  createUser: `${getBaseUrl(APIService.apiAdmin)}/users/create`,
+  uploadImage: `${getBaseUrl(APIService.api)}/products/upload-image`,
 };

@@ -1,0 +1,34 @@
+.react-select-container {
+    border: 1px solid var(--button-color);
+    border-radius: 5px;
+    .react-select__control  {
+        background-color: var(--primary-color)!important;
+        border: var(--primary-color)!important;
+        .react-select__value-container {
+
+            .react-select__multi-value__remove {
+                svg {
+                    color: #f0ad4e;
+                }
+            }
+            .react-select__multi-value {
+                .react-select__multi-value__remove {
+                    svg {
+                        color: rgb(255, 151, 41);
+                    }
+                }
+            }
+        }
+    }
+
+    .react-select__menu {
+        background-color: #fff!important;
+        color: #000;
+        z-index: 11;
+        .react-select__menu-list > * {
+            &:hover {
+                background-color:  rgba($color: #000000, $alpha: 0.5);
+            }
+        }
+    }
+}

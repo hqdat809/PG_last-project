@@ -1,0 +1,32 @@
+.react-select-container {
+    .react-select__control  {
+        background-color: var(--primary-color)!important;
+        border: var(--primary-color)!important;
+
+        .react-select__value-container {
+            
+
+            .react-select__single-value {
+                color: #fff,
+            }
+
+            .react-select__input-container {
+                color: #fff;
+                input {
+                    
+                }
+            }
+        }
+    }
+
+    .react-select__menu {
+        background-color: #fff!important;
+        color: #000;
+        z-index: 11;
+        .react-select__menu-list > * {
+            &:hover {
+                background-color:  rgba($color: #000000, $alpha: 0.5);
+            }
+        }
+    }
+}

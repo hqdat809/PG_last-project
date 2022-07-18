@@ -12,16 +12,12 @@ const EmailField = (props: Props) => {
   const { error, isToached } = props;
 
   return (
-    <div>
-      <label htmlFor="inputEmail" className="form-label">
-        <FormattedMessage id="email" />
-      </label>
+    <div className="email-field">
       <Field
         type="email"
         name="email"
         placeholder="Enter your email"
         className={`form-control ${error && isToached && 'error-input'}`}
-        id="inputEmail"
       />
       {error && isToached && <div className="input-feedback">{error}</div>}
     </div>

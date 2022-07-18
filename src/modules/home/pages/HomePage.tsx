@@ -19,6 +19,7 @@ import ModalConfirmDelete from 'modules/component/ModalConfirmDelete/ModalConfir
 import { ItemPerPage } from 'modules/intl/constants';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import LoadingPage from 'modules/common/components/LoadingPage';
+import { API_PATHS } from 'configs/api';
 
 const HomePage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -53,15 +54,8 @@ const HomePage = () => {
   const fetchData = async (activePage: number) => {
     setIsLoading(true);
     const json = await dispatch(
-      fetchThunk(
-        'https://api.gearfocus.div4.pgtest.co/apiAdmin/users/list',
-        'post',
-        { page: activePage, count: 25 },
-        true,
-        ''
-      )
+      fetchThunk(API_PATHS.listUser, 'post', { page: activePage, count: 25 }, true, '')
     );
-    // const json = await userService.getUser(activePage).then((values: any) => values);
     setNumberPage(Math.ceil(json.recordsTotal / 25));
     dispatch(getListUser(json.data));
     console.log('fetch: ', json);
@@ -71,15 +65,7 @@ const HomePage = () => {
 
   const handleFilter = async () => {
     setIsLoading(true);
-    const json = await dispatch(
-      fetchThunk(
-        'https://api.gearfocus.div4.pgtest.co/apiAdmin/users/list',
-        'post',
-        filterUser,
-        true,
-        ''
-      )
-    );
+    const json = await dispatch(fetchThunk(API_PATHS.listUser, 'post', filterUser, true, ''));
     setNumberPage(Math.ceil(json.recordsTotal / filterUser.count));
     dispatch(getListUser(json.data));
     setIsFiltering(true);
@@ -88,22 +74,15 @@ const HomePage = () => {
   };
 
   const handleChangePage = async (page: number) => {
-    setIsLoading(false);
-
+    setIsLoading(true);
     const json = await dispatch(
-      fetchThunk(
-        'https://api.gearfocus.div4.pgtest.co/apiAdmin/users/list',
-        'post',
-        { ...filterUser, page: page },
-        true,
-        ''
-      )
+      fetchThunk(API_PATHS.listUser, 'post', { ...filterUser, page: page }, true, '')
     );
     setNumberPage(Math.ceil(json.recordsTotal / filterUser.count));
     dispatch(getListUser(json.data));
     setIsFiltering(true);
     setNumberUser(Number(json.recordsTotal));
-    setIsLoading(true);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -117,7 +96,7 @@ const HomePage = () => {
 
   flatpickr('.date-selector', {
     // enableTime: true,
-    time_24hr: true,
+    // time_24hr: true,
     altInput: true,
     altFormat: 'M d Y',
     dateFormat: 'Y-m-d',
@@ -144,15 +123,7 @@ const HomePage = () => {
     setIsLoading(true);
     modal[0].classList.remove('active');
 
-    await dispatch(
-      fetchThunk(
-        'https://api.gearfocus.div4.pgtest.co/apiAdmin/users/edit',
-        'post',
-        { params: [...multiDelete] },
-        true,
-        ''
-      )
-    );
+    await dispatch(fetchThunk(API_PATHS.editUser, 'post', { params: [...multiDelete] }, true, ''));
     fetchData(page);
     const checkBoxes = document.getElementsByTagName('input');
     for (let i = 0, max = checkBoxes.length; i < max; i++) {
@@ -162,9 +133,7 @@ const HomePage = () => {
   };
 
   const handleClickAddUser = () => {
-    setIsLoading(true);
     dispatch(push(ROUTES.createUser));
-    setIsLoading(false);
   };
 
   return (
@@ -195,6 +164,7 @@ const HomePage = () => {
           <span>{numberUser}</span> Items
         </p>
         <div style={{ display: 'flex' }}>
+          {/* count per page */}
           <select
             className="select-per-page"
             onChange={async (e) => {

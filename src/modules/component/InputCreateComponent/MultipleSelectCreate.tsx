@@ -14,7 +14,7 @@ const MultipleSelectCreate = (props: Props) => {
   console.log(options);
 
   return (
-    <div style={{ minWidth: '412px' }}>
+    <div className="mb-3" style={{ minWidth: '412px' }}>
       <Col sm={24}>
         <Select
           mode="multiple"

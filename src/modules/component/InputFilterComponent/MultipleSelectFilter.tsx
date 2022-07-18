@@ -15,8 +15,8 @@ const MultipleSelectFilter = (props: Props) => {
     <Select
       isMulti
       options={roleOptions}
-      className="basic-multi-select"
-      classNamePrefix="select"
+      className="react-select-container"
+      classNamePrefix="react-select"
       placeholder="All user types..."
       onChange={(e) => {
         const selectRoles = e.map((item: IOptionsHasDisabled) => {

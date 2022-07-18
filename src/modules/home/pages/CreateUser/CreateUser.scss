@@ -1,20 +1,60 @@
 
 #create-user-page {
-    padding: 50px 30px 100px;
     margin-top: var(--header-height);
     margin-left: var(--sidebar-width);
-    background-color: var(--background-color);
+    background-color: var(--primary-color);
     color: #fff;
 
     .wrapper-content {
        
         .content-create-user {
-            padding: 0 400px 0 200px
         }
+
+        .email-password-content {
+            padding: 70px 400px 50px 50px;
+            background-color: var(--background-color);
+            margin-bottom: 30px;
+            box-shadow: 0 0.5rem 1rem 0 #1a1f33;
+
+            .wrapper-btn-back {
+                button {
+                    padding: 5px 10px;
+                    border-radius: 50%;
+                    border: none;
+
+                }
+            }
+
+            .title-content {
+                h3 {
+                    font-weight: normal;
+                }
+            }
+        }
+
+        .access-information, .tax-information {
+            padding: 20px 400px 50px 50px;
+            background-color: var(--background-color);
+            margin-bottom: 30px;
+            box-shadow: 0 0.5rem 1rem 0 #1a1f33;
+
+            .title-content {
+                h3 {
+                    font-weight: normal;
+                }
+            }
+        }
+
+        .tax-information {
+            margin: 0;
+            padding-bottom: 100px;
+        }
+
 
         .field-create-user {
             display: flex;
             margin: 50px 0;
+            gap: 20px;
 
             .create-user-select {
                 padding: 10px;
@@ -25,16 +65,41 @@
             }
     
             label {
-                flex: 2;
+                flex: 3;
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            .wrapper-input-field {
+                flex: 4;
+                justify-content: flex-start;
+                margin-right: 20%;
+
+                textarea {
+                    background-color: var(--primary-color);
+                    border: var(--primary-color);
+                    color: #fff ;
+                }
+    
+                input {
+                    background-color: var(--primary-color);
+                    border: 1px solid var(--button-color);
+                    color: #fff ;
+                    padding: 10px 10px;
+                }
             }
 
             .tax-check {
                 flex: 4;
                 height: 15px;
             }
-             div {
-                flex: 4;
 
+            .mb-3 {
+                flex: 4;
+                color: red;
+            }
+
+            div {
                 .ant-select-selector {
                     padding: 8px 0;
                      background-color: var(--primary-color);
@@ -47,22 +112,7 @@
                 }
              }
     
-            .wrapper-input-field {
-                flex: 4;
-
-                textarea {
-                    background-color: var(--primary-color);
-                    border: var(--primary-color);
-                    color: #fff ;
-                }
-    
-                input {
-                    background-color: var(--primary-color);
-                    border: var(--primary-color);
-                    color: #fff ;
-                    padding: 10px 10px;
-                }
-            }
+            
     
             select {
                 justify-content: flex-start;

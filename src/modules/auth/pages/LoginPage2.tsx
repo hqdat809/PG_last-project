@@ -23,7 +23,7 @@ import {
 import { ROUTES } from '../../../configs/routes';
 import { replace } from 'connected-react-router';
 import { getErrorMessageResponse } from '../../../utils';
-import './LoginPage.css';
+import './LoginPage.scss';
 
 const LoginPage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -77,7 +77,6 @@ const LoginPage = () => {
   return (
     <div>
       <div className="wrapper-login-page">
-        <img src={logo} alt="" />
         <LoginForm onLogin={onLogin} loading={loading} errorMessage={errorMessage} />
       </div>
     </div>

@@ -17,6 +17,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { AppState } from '../../../redux/reducer';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import { setListCountry, setListRole } from 'modules/auth/redux/userReducer';
+import { API_PATHS } from 'configs/api';
 
 interface Props {
   handleFilter(): void;
@@ -33,15 +34,7 @@ const FormFilter = (props: Props) => {
   const [isHiddenForm, setIsHiddenForm] = React.useState(false);
 
   const fetchRole = async () => {
-    const res = await dispatch(
-      fetchThunk(
-        'https://api.gearfocus.div4.pgtest.co/apiAdmin/commons/role',
-        'get',
-        undefined,
-        true,
-        ''
-      )
-    );
+    const res = await dispatch(fetchThunk(API_PATHS.listRole, 'get', undefined, true, ''));
     const administratorRoles = res.data.administrator;
     const customerRoles = res.data.customer;
     const allRole = administratorRoles.concat(customerRoles);
@@ -49,20 +42,11 @@ const FormFilter = (props: Props) => {
       return { value: item.id, label: item.name, disable: false };
     });
     dispatch(setListRole(roleOptionSelect));
-    // setRoleOptions(roleOptionSelect);
     console.log('res fetch role: ', res);
   };
 
   const fetchCountry = async () => {
-    const res = await dispatch(
-      fetchThunk(
-        'https://api.gearfocus.div4.pgtest.co/apiAdmin/commons/country',
-        'get',
-        undefined,
-        true,
-        ''
-      )
-    );
+    const res = await dispatch(fetchThunk(API_PATHS.listCountry, 'get', undefined, true, ''));
 
     const selectCountry = res.data.map((item: ICountry) => {
       return { value: item.code, label: item.country, disabled: false };

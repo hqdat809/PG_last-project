@@ -16,8 +16,8 @@ const SingleSelectFilter = (props: Props) => {
     <Select
       defaultValue={options[0]}
       options={options}
-      className="basic-multi-select"
-      classNamePrefix="select"
+      className="react-select-container"
+      classNamePrefix="react-select"
       isOptionDisabled={(option) => option.disabled}
       onChange={(e) => {
         if (e) {

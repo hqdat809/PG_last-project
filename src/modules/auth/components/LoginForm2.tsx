@@ -17,7 +17,6 @@ const LoginForm = (props: Props) => {
 
   return (
     <>
-      <div></div>
       <Formik
         initialValues={{ email: '', password: '', rememberMe: false }}
         onSubmit={(values, { setSubmitting }) => {
@@ -31,6 +30,8 @@ const LoginForm = (props: Props) => {
         {({ touched, errors }) => {
           return (
             <Form className="row g-3 needs-validation form-login">
+              <h1 className="title-login">Login</h1>
+
               {!!errorMessage && (
                 <div className="alert alert-danger" role="alert" style={{ width: '100%' }}>
                   {errorMessage}
@@ -38,21 +39,12 @@ const LoginForm = (props: Props) => {
               )}
               <EmailField error={errors.email} isToached={touched.email} />
               <PasswordField error={errors.password} isToached={touched.password} />
-
-              <div>
-                <Field
-                  type="checkbox"
-                  name="rememberMe"
-                  id="rememberMe"
-                  className="form-check-input"
-                />
-                <label className="form-check-label" htmlFor="invalidCheck">
-                  <FormattedMessage id="rememberMe" />
-                </label>
-              </div>
-              <div className="row justify-content-md-center" style={{ margin: '16px 0' }}>
-                <div className="col-md-auto">
-                  <button className="btn btn-primary" type="submit" disabled={loading}>
+              <div
+                className="row justify-content-md-center wrapper-btn-login"
+                style={{ margin: '16px 0' }}
+              >
+                <div className="col-md-auto btn-login">
+                  <button className="btn" type="submit" disabled={loading}>
                     <FormattedMessage id="login" />
                   </button>
                 </div>

@@ -64,6 +64,37 @@ export interface IUserCreate {
   taxExempt: boolean;
 }
 
+export interface IUserDetail {
+  income: string;
+  expense: string;
+  earning: string;
+  order_as_buyer: number;
+  order_as_buyer_total: string;
+  products_total: string;
+  profile_id: string;
+  default_card_id: string;
+  taxExempt: string;
+  paymentRailsType: null;
+  paymentRailsId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  access_level: string;
+  joined: string;
+  first_login: string;
+  last_login: string;
+  status: string;
+  membership_id: null;
+  pending_membership_id: null;
+  language: string;
+  forceChangePassword: string;
+  referer: string;
+  statusComment: string;
+  roles: string[];
+  companyName: string;
+  vendor_id: string;
+}
+
 export interface IRolesUser {
   id: string;
   // enable: string;
@@ -124,7 +155,7 @@ export interface IOptions {
 }
 
 export interface IOptionsHasDisabled {
-  value: string;
+  value: any;
   label: string;
   disabled: boolean;
 }

@@ -5,13 +5,13 @@ import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import { useDispatch, useSelector } from 'react-redux';
 import { values } from 'lodash';
 import useDebounce from 'hooks/useDebounce';
 import 'modules/component/InputCreateComponent/AutocompleteField.scss';
 import { Field } from 'formik';
+import { AppState } from 'redux/reducer';
 
 interface Props {
   handleSetValue(value: string): void;
@@ -96,6 +96,7 @@ const AutocompleteField = (props: Props) => {
       <Field
         type="text"
         value={search}
+        name="vendor_id"
         onChange={(e: any) => {
           setIsLoading(true);
           setListVendor([]);

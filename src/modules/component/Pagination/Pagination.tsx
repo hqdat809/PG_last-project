@@ -6,7 +6,6 @@ import React from 'react';
 
 interface Props {
   setPage(page: number): void;
-
   numberPage: number | undefined;
 }
 
