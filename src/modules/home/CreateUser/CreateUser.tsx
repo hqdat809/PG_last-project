@@ -1,28 +1,23 @@
-import { FastField, Field, Form, Formik } from 'formik';
+import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { API_PATHS } from 'configs/api';
+import { ROUTES } from 'configs/routes';
+import { push } from 'connected-react-router';
+import InputField from 'CustomField/InputField/InputField';
+import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
+import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
+import { FastField, Form, Formik } from 'formik';
 import { CreateUserSchema } from 'modules/auth/utils';
-import React, { useEffect } from 'react';
-import * as userService from 'service/userService';
-import 'modules/home/pages/CreateUser/CreateUser.scss';
-import TextInput from 'modules/component/InputCreateComponent/TextInput';
-import SingleSelectInput from 'modules/component/InputCreateComponent/SingleSelectInput';
+import LoadingPage from 'modules/common/components/LoadingPage';
+import { fetchThunk } from 'modules/common/redux/thunk';
+import 'modules/home/CreateUser/CreateUser.scss';
 import { listAccessLevel, listMemberCreate, listType } from 'modules/intl/constants';
-import MultipleSelectCreate from 'modules/component/InputCreateComponent/MultipleSelectCreate';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../../redux/reducer';
-import { push } from 'connected-react-router';
-import { ROUTES } from 'configs/routes';
-import { toast } from 'react-toastify';
-import { fetchThunk } from 'modules/common/redux/thunk';
-import { IRolesUser } from 'models/user';
-import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
-import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
-import InputField from 'CustomField/InputField/InputField';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
-import LoadingPage from 'modules/common/components/LoadingPage';
-import { API_PATHS } from 'configs/api';
+import { AppState } from '../../../redux/reducer';
 
 interface Props {}
 

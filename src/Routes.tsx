@@ -13,13 +13,13 @@ import {
   IS_REMEMBER_FALSE,
 } from './utils/constants';
 
-const HomePage = lazy(() => import('./modules/home/pages/HomePage'));
-const CreateUserPage = lazy(() => import('./modules/home/pages/CreateUser/CreateUser'));
-const CreateProduct = lazy(() => import('./modules/home/pages/CreateProduct/CreateProduct'));
+const HomePage = lazy(() => import('./modules/home/pages/UserPage'));
+const CreateUserPage = lazy(() => import('./modules/home/CreateUser/CreateUser'));
+const CreateProduct = lazy(() => import('./modules/home/CreateProduct/CreateProduct'));
 const ContactPage = lazy(() => import('./modules/home/pages/ContactPage'));
 const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage2'));
-const UserDetail = lazy(() => import('./modules/home/pages/UserDetail/UserDetail'));
-const ProductDetail = lazy(() => import('./modules/home/pages/ProductDetail/ProductDetail'));
+const UserDetail = lazy(() => import('./modules/home/UserDetail/UserDetail'));
+const ProductDetail = lazy(() => import('./modules/home/ProductDetail/ProductDetail'));
 const LoadingPage = lazy(() => import('./modules/common/components/LoadingPage'));
 
 interface Props {}

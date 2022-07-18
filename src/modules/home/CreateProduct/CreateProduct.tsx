@@ -6,23 +6,17 @@ import { push } from 'connected-react-router';
 import InputField from 'CustomField/InputField/InputField';
 import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
 import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
-import { convertToRaw, EditorState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
 import flatpickr from 'flatpickr';
 import { FastField, Field, Form, Formik } from 'formik';
 import JoditEditor from 'jodit-react';
 import { IBranch } from 'models/product';
-import { ICategory } from 'models/user';
 import { setListBranch } from 'modules/auth/redux/productReducer';
-import { CreateProductSchema, CreateUserSchema } from 'modules/auth/utils';
+import { CreateProductSchema } from 'modules/auth/utils';
 import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import AutocompleteField from 'modules/component/InputCreateComponent/AutocompleteField';
 import InputImage from 'modules/component/InputCreateComponent/InputImage';
-import MultipleSelectCreate from 'modules/component/InputCreateComponent/MultipleSelectCreate';
-import SingleSelectInput from 'modules/component/InputCreateComponent/SingleSelectInput';
-import TextInput from 'modules/component/InputCreateComponent/TextInput';
-import 'modules/home/pages/CreateProduct/CreateProduct.scss';
+import 'modules/home/CreateProduct/CreateProduct.scss';
 import {
   listCondition,
   listMemberProduct,
@@ -32,14 +26,12 @@ import {
 } from 'modules/intl/constants';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
-import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useDispatch, useSelector } from 'react-redux';
-import Select, { useStateManager } from 'react-select';
 import { toast } from 'react-toastify';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../../redux/reducer';
+import { AppState } from '../../../redux/reducer';
 
 interface Props {}
 

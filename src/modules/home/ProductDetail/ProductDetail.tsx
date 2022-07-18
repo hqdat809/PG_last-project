@@ -1,16 +1,23 @@
 import { faArrowLeftLong, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { API_PATHS } from 'configs/api';
 import { ROUTES } from 'configs/routes';
 import { push } from 'connected-react-router';
+import InputField from 'CustomField/InputField/InputField';
+import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
+import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
+import flatpickr from 'flatpickr';
 import { FastField, Field, Form, Formik } from 'formik';
+import JoditEditor from 'jodit-react';
 import { IBranch, IProductDetail } from 'models/product';
 import { setListBranch } from 'modules/auth/redux/productReducer';
 import { CreateProductSchema } from 'modules/auth/utils';
+import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import AutocompleteField from 'modules/component/InputCreateComponent/AutocompleteField';
 import InputImage from 'modules/component/InputCreateComponent/InputImage';
 import TextInput from 'modules/component/InputCreateComponent/TextInput';
-import 'modules/home/pages/ProductDetail/ProductDetail.scss';
+import 'modules/home/ProductDetail/ProductDetail.scss';
 import {
   listCondition,
   listMemberProduct,
@@ -18,22 +25,14 @@ import {
   metaDesType,
   ogTagsType,
 } from 'modules/intl/constants';
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../../redux/reducer';
-import JoditEditor from 'jodit-react';
-import InputField from 'CustomField/InputField/InputField';
-import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
-import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
-import flatpickr from 'flatpickr';
-import moment from 'moment';
-import LoadingPage from 'modules/common/components/LoadingPage';
-import { API_PATHS } from 'configs/api';
+import { AppState } from '../../../redux/reducer';
 
 interface Props {}
 
