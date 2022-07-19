@@ -9,8 +9,8 @@ import moment from 'moment';
 import 'flatpickr/dist/themes/material_green.css';
 
 import { API_PATHS } from 'configs/api';
-import { IDeleteUSer, IFilterUser } from 'models/user';
-import { getListUser } from 'modules/home/redux/userReducer';
+import { ICategory, ICountry, IDeleteUSer, IFilterUser, IRolesUser } from 'models/user';
+import { getListUser, setListCountry, setListRole } from 'modules/home/redux/userReducer';
 import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import FormFilterUser from 'modules/component/FormFilter/FormFilterUser';
@@ -20,6 +20,8 @@ import TableListUser from 'modules/component/TableList/TableListUser';
 import 'modules/home/pages/HomePage.scss';
 import { ItemPerPage } from 'modules/intl/constants';
 import { AppState } from 'redux/reducer';
+import { setListBranch, setListCategory } from '../redux/productReducer';
+import { IBranch } from 'models/product';
 
 const HomePage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -61,6 +63,59 @@ const HomePage = () => {
     setIsLoading(false);
   };
 
+  const fetchCategory = async () => {
+    const res = await dispatch(
+      fetchThunk(
+        'https://api.gearfocus.div4.pgtest.co/api/categories/list',
+        'get',
+        undefined,
+        true,
+        ''
+      )
+    );
+
+    const category = res.data.map((item: ICategory) => {
+      return { value: item.id, label: item.name, disabled: false };
+    });
+    category.unshift({ value: '0', label: 'Any Category', disabled: false });
+    dispatch(setListCategory(category));
+  };
+
+  const fetchBranch = async () => {
+    const res = await dispatch(fetchThunk(API_PATHS.listBrand, 'get', undefined, true, ''));
+
+    const branchs = res.data.map((item: IBranch) => {
+      if (item.name === 'None') {
+        return { value: '', label: item.name };
+      }
+      return { value: item.id, label: item.name };
+    });
+    dispatch(setListBranch(branchs));
+  };
+
+  const fetchRole = async () => {
+    const res = await dispatch(fetchThunk(API_PATHS.listRole, 'get', undefined, true, ''));
+    const administratorRoles = res.data.administrator;
+    const customerRoles = res.data.customer;
+    const allRole = administratorRoles.concat(customerRoles);
+    const roleOptionSelect = allRole.map((item: IRolesUser) => {
+      return { value: item.id, label: item.name, disable: false };
+    });
+    dispatch(setListRole(roleOptionSelect));
+  };
+
+  const fetchCountry = async () => {
+    const res = await dispatch(fetchThunk(API_PATHS.listCountry, 'get', undefined, true, ''));
+
+    const selectCountry = res.data.map((item: ICountry) => {
+      return { value: item.code, label: item.country, disabled: false };
+    });
+
+    selectCountry.unshift({ value: '', label: 'All country', disabled: false });
+
+    dispatch(setListCountry(selectCountry));
+  };
+
   const handleFilter = async (values: IFilterUser) => {
     setIsLoading(true);
     const json = await dispatch(fetchThunk(API_PATHS.listUser, 'post', values, true, ''));
@@ -82,31 +137,6 @@ const HomePage = () => {
     setNumberUser(Number(json.recordsTotal));
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    setFilterUser({ ...filterUser, page: page });
-    if (!isFiltering) {
-      fetchData(page);
-    } else {
-      handleChangePage(page);
-    }
-  }, [page]);
-
-  flatpickr('.date-selector', {
-    // enableTime: true,
-    // time_24hr: true,
-    altInput: true,
-    altFormat: 'M d Y',
-    dateFormat: 'Y-m-d',
-    mode: 'range',
-    conjunction: ' - ',
-    onChange: function (selectedDates, dateStr, instance) {
-      const formatSelectedDate = selectedDates.map((item) => {
-        return moment(item).format('YYYY-MM-DD');
-      });
-      setFilterUser({ ...filterUser, date_range: formatSelectedDate });
-    },
-  });
 
   const handleDelete = () => {
     modal[0].classList.add('active');
@@ -132,6 +162,38 @@ const HomePage = () => {
   const handleClickAddUser = () => {
     dispatch(push(ROUTES.createUser));
   };
+
+  flatpickr('.date-selector', {
+    // enableTime: true,
+    // time_24hr: true,
+    altInput: true,
+    altFormat: 'M d Y',
+    dateFormat: 'Y-m-d',
+    mode: 'range',
+    conjunction: ' - ',
+    onChange: function (selectedDates, dateStr, instance) {
+      const formatSelectedDate = selectedDates.map((item) => {
+        return moment(item).format('YYYY-MM-DD');
+      });
+      setFilterUser({ ...filterUser, date_range: formatSelectedDate });
+    },
+  });
+
+  useEffect(() => {
+    setFilterUser({ ...filterUser, page: page });
+    if (!isFiltering) {
+      fetchData(page);
+    } else {
+      handleChangePage(page);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    fetchCategory();
+    fetchBranch();
+    fetchRole();
+    fetchCountry();
+  }, []);
 
   return (
     <div id="home-page">

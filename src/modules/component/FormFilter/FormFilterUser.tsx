@@ -33,34 +33,6 @@ const FormFilter = (props: Props) => {
 
   const [isHiddenForm, setIsHiddenForm] = React.useState(false);
 
-  const fetchRole = async () => {
-    const res = await dispatch(fetchThunk(API_PATHS.listRole, 'get', undefined, true, ''));
-    const administratorRoles = res.data.administrator;
-    const customerRoles = res.data.customer;
-    const allRole = administratorRoles.concat(customerRoles);
-    const roleOptionSelect = allRole.map((item: IRolesUser) => {
-      return { value: item.id, label: item.name, disable: false };
-    });
-    dispatch(setListRole(roleOptionSelect));
-  };
-
-  const fetchCountry = async () => {
-    const res = await dispatch(fetchThunk(API_PATHS.listCountry, 'get', undefined, true, ''));
-
-    const selectCountry = res.data.map((item: ICountry) => {
-      return { value: item.code, label: item.country, disabled: false };
-    });
-
-    selectCountry.unshift({ value: '', label: 'All country', disabled: false });
-
-    dispatch(setListCountry(selectCountry));
-  };
-
-  useEffect(() => {
-    fetchRole();
-    fetchCountry();
-  }, []);
-
   return (
     <>
       <Formik

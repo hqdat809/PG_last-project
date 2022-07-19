@@ -51,27 +51,9 @@ const CreateProduct = (props: Props) => {
   const [isCustomOgTags, setIsCustomOgTags] = useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const fetchBranch = async () => {
-    const res = await dispatch(fetchThunk(API_PATHS.listBrand, 'get', undefined, true, ''));
-
-    const branchs = res.data.map((item: IBranch) => {
-      if (item.name === 'None') {
-        return { value: '', label: item.name };
-      }
-      return { value: item.id, label: item.name };
-    });
-    dispatch(setListBranch(branchs));
-  };
-
   const hanldeMoveToDetail = (idProduct: string) => {
     dispatch(push(`/detai-product/${idProduct}`));
   };
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetchBranch();
-    setIsLoading(false);
-  }, []);
 
   // Xu li change image
   const handleUploadImages = async (productId: string) => {
@@ -106,6 +88,12 @@ const CreateProduct = (props: Props) => {
   const handleClickBackSite = () => {
     dispatch(push(ROUTES.product));
   };
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   fetchBranch();
+  //   setIsLoading(false);
+  // }, []);
 
   return (
     <Formik

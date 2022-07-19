@@ -70,18 +70,7 @@ const ProductDetail = (props: Props) => {
     setIsLoading(false);
   };
 
-  const fetchBranch = async () => {
-    const res = await dispatch(fetchThunk(API_PATHS.listBrand, 'get', undefined, true, ''));
-
-    const branchs = res.data.map((item: IBranch) => {
-      return { value: item.id, label: item.name };
-    });
-
-    dispatch(setListBranch(branchs));
-  };
-
   // Xu li change image
-
   const handleUploadImages = async (productId: string) => {
     const data = images;
     const formData = new FormData();
@@ -115,7 +104,6 @@ const ProductDetail = (props: Props) => {
   };
 
   useEffect(() => {
-    fetchBranch();
     fetchDetailProduct();
   }, []);
 

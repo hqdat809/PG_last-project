@@ -34,25 +34,6 @@ const FormFilter = (props: Props) => {
   const [searchVendor, setSearchVendor] = React.useState('');
   const [vendorId, setVendorId] = React.useState('');
   const [listSearchVendor, setListSearchVendor] = React.useState<IOptionsHasDisabled[]>();
-  const [stringSearchType, setStringSearchType] = useState('');
-
-  const fetchCategory = async () => {
-    const res = await dispatch(
-      fetchThunk(
-        'https://api.gearfocus.div4.pgtest.co/api/categories/list',
-        'get',
-        undefined,
-        true,
-        ''
-      )
-    );
-
-    const category = res.data.map((item: ICategory) => {
-      return { value: item.id, label: item.name, disabled: false };
-    });
-    category.unshift({ value: '', label: 'Any Category', disabled: false });
-    dispatch(setListCategory(category));
-  };
 
   const loadSearchVendor = async () => {
     const res = await dispatch(
@@ -77,10 +58,6 @@ const FormFilter = (props: Props) => {
   };
 
   useEffect(() => {
-    fetchCategory();
-  }, []);
-
-  useEffect(() => {
     loadSearchVendor();
   }, [searchVendor]);
 
@@ -90,7 +67,7 @@ const FormFilter = (props: Props) => {
         availability: '',
         category: '',
         count: 25,
-        order_by: 'DESC',
+        order_by: 'ASC',
         page: 1,
         search: '',
         search_type: '',
