@@ -63,11 +63,17 @@ const CreateUser = (props: Props) => {
     >
       {({ values, dirty }) => {
         console.log(dirty);
-        useEffect(() => {
-          if (values.access_level === '100') {
-            setIsAdmin(true);
-          } else setIsAdmin(false);
-        }, [values.access_level]);
+
+        if (values.access_level === '100') {
+          setIsAdmin(true);
+        } else setIsAdmin(false);
+
+        // useEffect(() => {
+        //   if (values.access_level === '100') {
+        //     setIsAdmin(true);
+        //   } else setIsAdmin(false);
+        // }, [values.access_level]);
+
         return (
           <>
             <div id="create-user-page">

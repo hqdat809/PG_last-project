@@ -3,11 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/eslint-recommended"
-  ],
+  "extends": "react-app",
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"

@@ -192,32 +192,53 @@ const ProductDetail = (props: Props) => {
             },
           });
 
-          useEffect(() => {
-            if (values.participate_sale) {
-              setIsSale(true);
-            } else {
-              setIsSale(false);
-              values.sale_price = '0';
-            }
-          }, [values.participate_sale]);
+          if (values.participate_sale) {
+            setIsSale(true);
+          } else {
+            setIsSale(false);
+            values.sale_price = '0';
+          }
 
-          useEffect(() => {
-            if (values.og_tags_type === '1') {
-              setIsCustomOgTags(true);
-            } else {
-              values.og_tags = '';
-              setIsCustomOgTags(false);
-            }
-          }, [values.og_tags_type]);
+          if (values.og_tags_type === '1') {
+            setIsCustomOgTags(true);
+          } else {
+            values.og_tags = '';
+            setIsCustomOgTags(false);
+          }
 
-          useEffect(() => {
-            if (values.meta_desc_type == 'C') {
-              setIsCustomMetaDes(true);
-            } else {
-              values.meta_description = '';
-              setIsCustomMetaDes(false);
-            }
-          }, [values.meta_desc_type]);
+          if (values.meta_desc_type == 'C') {
+            setIsCustomMetaDes(true);
+          } else {
+            values.meta_description = '';
+            setIsCustomMetaDes(false);
+          }
+
+          // useEffect(() => {
+          //   if (values.participate_sale) {
+          //     setIsSale(true);
+          //   } else {
+          //     setIsSale(false);
+          //     values.sale_price = '0';
+          //   }
+          // }, [values.participate_sale]);
+
+          // useEffect(() => {
+          //   if (values.og_tags_type === '1') {
+          //     setIsCustomOgTags(true);
+          //   } else {
+          //     values.og_tags = '';
+          //     setIsCustomOgTags(false);
+          //   }
+          // }, [values.og_tags_type]);
+
+          // useEffect(() => {
+          //   if (values.meta_desc_type == 'C') {
+          //     setIsCustomMetaDes(true);
+          //   } else {
+          //     values.meta_description = '';
+          //     setIsCustomMetaDes(false);
+          //   }
+          // }, [values.meta_desc_type]);
 
           return (
             <div id="create-product-page">

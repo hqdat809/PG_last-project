@@ -91,12 +91,16 @@ const UserDetail = (props: Props) => {
         }}
         validationSchema={UpdateUserSchema}
       >
-        {({ errors, touched, values }) => {
-          useEffect(() => {
-            if (values.access_level === '100') {
-              setIsAdmin(true);
-            } else setIsAdmin(false);
-          }, [values.access_level]);
+        {({ values }) => {
+          if (values.access_level === '100') {
+            setIsAdmin(true);
+          } else setIsAdmin(false);
+
+          // useEffect(() => {
+          //   if (values.access_level === '100') {
+          //     setIsAdmin(true);
+          //   } else setIsAdmin(false);
+          // }, [values.access_level]);
 
           return (
             <div id="create-user-page">
