@@ -95,9 +95,9 @@ const RecommendInput = (props: Props) => {
       >
         {isLoading && <li>loading...</li>}
         {!isLoading && listVendor?.length === 0 && isNoData && <li>No Option</li>}
-        {listVendor?.map((item: IOptionsHasDisabled, index) => (
+        {listVendor?.map((item: IOptionsHasDisabled) => (
           <li
-            key={index}
+            key={item.value}
             onClick={() => {
               setSearch(item.label);
               onChangeFilter('vendor', item.value);

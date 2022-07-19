@@ -2,8 +2,8 @@ import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ILoginParams } from 'models/auth';
-import EmailField from 'modules/component/EmailField';
-import PasswordField from 'modules/component/PasswordField';
+import EmailField from 'modules/component/LoginComponent/EmailField';
+import PasswordField from 'modules/component/LoginComponent/PasswordField';
 import { SignupSchema } from 'modules/auth/utils';
 
 interface Props {
@@ -27,7 +27,8 @@ const LoginForm = (props: Props) => {
         }}
         validationSchema={SignupSchema}
       >
-        {({ touched, errors }) => {
+        {({ touched, errors, isValid }) => {
+          console.log(isValid);
           return (
             <Form className="row g-3 needs-validation form-login">
               <h1 className="title-login">Login</h1>
@@ -39,12 +40,13 @@ const LoginForm = (props: Props) => {
               )}
               <EmailField error={errors.email} isToached={touched.email} />
               <PasswordField error={errors.password} isToached={touched.password} />
+
               <div
                 className="row justify-content-md-center wrapper-btn-login"
                 style={{ margin: '16px 0' }}
               >
                 <div className="col-md-auto btn-login">
-                  <button className="btn" type="submit" disabled={loading}>
+                  <button className="btn" type="submit" disabled={!isValid}>
                     <FormattedMessage id="login" />
                   </button>
                 </div>

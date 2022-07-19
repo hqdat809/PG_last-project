@@ -1,7 +1,7 @@
 export const ROUTES = {
-  home: '/user',
+  user: '/user',
   createUser: '/create-user',
-  contact: '/product',
+  product: '/product',
   login: '/login',
   detailUser: '/detail-user/:id',
   createProduct: '/create-product',

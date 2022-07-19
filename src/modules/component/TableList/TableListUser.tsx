@@ -1,17 +1,17 @@
 import { faArrowDown, faArrowUp, faTrash } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import 'flatpickr/dist/themes/material_green.css';
 import { IDeleteUSer, IFilterUser, IGetUser } from 'models/user';
 import 'modules/home/pages/HomePage.scss';
-import moment from 'moment';
-import { useSelector, useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { AppState } from '../../../redux/reducer';
-import React, { useState } from 'react';
-import * as userService from 'service/userService';
+import { AppState } from 'redux/reducer';
 import { getListUser } from 'modules/auth/redux/userReducer';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 import { fetchThunk } from 'modules/common/redux/thunk';
 
 interface Props {
@@ -24,8 +24,6 @@ interface Props {
 
 const TableListUser = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-
-  console.log(useSelector((state: AppState) => state?.userManage?.listUser));
 
   const listUser = useSelector((state: AppState) => state?.userManage?.listUser);
   const { multiDelete, setmultiDelete, handleDelete, setFilterUser, filterUser } = props;
@@ -47,9 +45,6 @@ const TableListUser = (props: Props) => {
         ''
       )
     );
-    // const json = await userService
-    //   .filterUser({ ...filterUser, sort: sortBy })
-    //   .then((values: any) => values);
     dispatch(getListUser(json.data));
   };
 
@@ -149,9 +144,9 @@ const TableListUser = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {listUser?.map((item, index) => {
+          {listUser?.map((item) => {
             return (
-              <tr className="item-table" key={index}>
+              <tr className="item-table" key={item.vendor_id}>
                 <th scope="row" className="check-box-delete">
                   <div className="wrapper-check-box-delete">
                     <input
@@ -171,7 +166,6 @@ const TableListUser = (props: Props) => {
                           });
                           const newArraySelected = multiDelete;
                           newArraySelected.splice(removeUserSelected, 1);
-                          console.log('check new array: ', newArraySelected);
                           setmultiDelete(newArraySelected);
                         }
                       }}

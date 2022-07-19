@@ -4,25 +4,21 @@ export const LS_LANG = 'lang';
 export const listStatus = [
   {
     label: 'Any Status',
-    value: '',
-    disabled: false,
+    value: [],
   },
   {
     label: 'Enable',
-    value: 'E',
-    disabled: false,
+    value: ['E'],
   },
 
   {
     label: 'Disable',
-    value: 'D',
-    disabled: false,
+    value: ['D'],
   },
 
   {
     label: 'Unapproved vendor',
-    value: 'U',
-    disabled: false,
+    value: ['U'],
   },
 ];
 
@@ -49,8 +45,8 @@ export const listStatusCreate = [
 ];
 
 export const listMemberShip = [
-  { label: 'All memberships', value: '', disabled: false },
   { label: 'Memberships', value: 'M_4', disabled: false },
+  { label: 'Pending Memberships', value: 'P_4', disabled: false },
 ];
 
 export const listType = [

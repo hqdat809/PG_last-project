@@ -2,17 +2,18 @@ import React from 'react';
 import { replace } from 'connected-react-router';
 import Cookies from 'js-cookie';
 import { clearAuthorization, clearUserInfo } from 'modules/auth/redux/authReducer';
-import 'modules/home/pages/HomePage.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { ROUTES } from '../../../configs/routes';
-import { AppState } from '../../../redux/reducer';
-import { ACCESS_TOKEN_KEY, IS_REMEMBER, USER_INFO } from '../../../utils/constants';
-import 'modules/component/Header/Header.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { push } from 'connected-react-router';
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch, useSelector } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
+import { push } from 'connected-react-router';
+
+import { ROUTES } from 'configs/routes';
+import 'modules/home/pages/HomePage.scss';
+import { AppState } from 'redux/reducer';
+import { ACCESS_TOKEN_KEY, IS_REMEMBER, USER_INFO } from 'utils/constants';
+import 'modules/component/Header/Header.scss';
 
 const Header = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();

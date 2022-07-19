@@ -1,28 +1,23 @@
 import { ROUTES } from 'configs/routes';
 import { push } from 'connected-react-router';
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/themes/material_green.css';
-import { IDeleteUSer, IFilterUser, IGetUser } from 'models/user';
-import { getListProduct } from 'modules/auth/redux/productReducer';
-import { getListUser } from 'modules/auth/redux/userReducer';
-import FormFilterUser from 'modules/component/FormFilter/FormFilterUser';
-import FormFilterProduct from 'modules/component/FormFilter/FormFilterProduct';
-import Pagination from 'modules/component/Pagination/Pagination';
-import TableListUser from 'modules/component/TableList/TableListUser';
-import 'modules/home/pages/HomePage.scss';
-import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from 'redux/reducer';
+import { ThunkDispatch } from 'redux-thunk';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Action } from 'redux';
-import thunk, { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
-import * as userService from 'service/userService';
-import React, { useEffect, useState } from 'react';
-import ModalConfirmDelete from 'modules/component/ModalConfirmDelete/ModalConfirmDelete';
-import { ItemPerPage } from 'modules/intl/constants';
-import { fetchThunk } from 'modules/common/redux/thunk';
-import TableListProduct from 'modules/component/TableList/TableListProduct';
+import 'flatpickr/dist/themes/material_green.css';
+
 import { IFilterProduct } from 'models/product';
+import { IDeleteUSer } from 'models/user';
+import { getListProduct } from 'modules/auth/redux/productReducer';
 import LoadingPage from 'modules/common/components/LoadingPage';
+import { fetchThunk } from 'modules/common/redux/thunk';
+import FormFilterProduct from 'modules/component/FormFilter/FormFilterProduct';
+import ModalConfirmDelete from 'modules/component/ModalConfirmDelete/ModalConfirmDelete';
+import Pagination from 'modules/component/Pagination/Pagination';
+import TableListProduct from 'modules/component/TableList/TableListProduct';
+import 'modules/home/pages/HomePage.scss';
+import { ItemPerPage } from 'modules/intl/constants';
 
 const ContactPage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -61,10 +56,8 @@ const ContactPage = () => {
       )
     );
 
-    console.log('test json: ', json);
     setNumberPage(Math.ceil(json.recordsTotal / 25));
     dispatch(getListProduct(json.data));
-    console.log('fetch: ', json);
     setNumberProduct(Number(json.recordsTotal));
     setIsLoading(false);
   };
@@ -193,14 +186,13 @@ const ContactPage = () => {
                 );
                 setNumberPage(Math.ceil(json.recordsTotal / Number(e.target.value)));
                 dispatch(getListProduct(json.data));
-                console.log('filter: ', json);
                 setIsFiltering(true);
                 setNumberProduct(Number(json.recordsTotal));
               }
             }}
           >
-            {ItemPerPage.map((item, index) => (
-              <option key={index} value={item.value}>
+            {ItemPerPage.map((item) => (
+              <option key={item.value} value={item.value}>
                 {item.label}
               </option>
             ))}

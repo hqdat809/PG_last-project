@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field } from 'formik';
-import 'modules/component/InputElement.css';
+import 'modules/component/LoginComponent/InputElement.css';
 import { FormattedMessage } from 'react-intl';
 
 interface Props {
@@ -8,15 +8,15 @@ interface Props {
   isToached: boolean | undefined;
 }
 
-const PasswordField = (props: Props) => {
+const EmailField = (props: Props) => {
   const { error, isToached } = props;
 
   return (
-    <div className="password-field">
+    <div className="email-field">
       <Field
-        type="password"
-        name="password"
-        placeholder="Enter your password"
+        type="email"
+        name="email"
+        placeholder="Enter your email"
         className={`form-control ${error && isToached && 'error-input'}`}
       />
       {error && isToached && <div className="input-feedback">{error}</div>}
@@ -24,4 +24,4 @@ const PasswordField = (props: Props) => {
   );
 };
 
-export default PasswordField;
+export default EmailField;

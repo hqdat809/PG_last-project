@@ -1,10 +1,10 @@
-import { IOptions, IOptionsHasDisabled } from 'models/user';
-import PropTypes from 'prop-types';
-import React from 'react';
-import Select from 'react-select';
-import { FormGroup, Label } from 'reactstrap';
 import 'CustomField/SelectField/MultiSelectField.scss';
-import { ErrorMessage } from 'formik';
+import { IOptionsHasDisabled } from 'models/user';
+
+import PropTypes from 'prop-types';
+import Select from 'react-select';
+import { FormGroup } from 'reactstrap';
+import React from 'react';
 
 MultiSelectField.propTypes = {
   field: PropTypes.object.isRequired,
@@ -37,19 +37,16 @@ function MultiSelectField(props: Props) {
   const { field, options, form, label, placeholder, disabled } = props;
   const { name, value } = field;
   const { errors, touched, handleBlur } = form;
-  console.log(value);
   const selectedOption = options.filter(
     (item: IOptionsHasDisabled) => value.indexOf(item.value) !== -1
   );
 
-  console.log('selec options: ', selectedOption);
-  console.log('value: ', options);
+  console.log(name, ' is loaded...');
 
   const handleSelectedOptionChange = (selectedOption: IOptionsHasDisabled[]) => {
     const selectedValue = selectedOption.map((item) => {
       return item.value;
     });
-    console.log(selectedOption);
 
     const changeEvent = {
       target: {
@@ -58,7 +55,6 @@ function MultiSelectField(props: Props) {
       },
     };
     field.onChange(changeEvent);
-    console.log(selectedValue);
   };
 
   return (
@@ -74,11 +70,8 @@ function MultiSelectField(props: Props) {
         placeholder={placeholder}
         isDisabled={disabled}
         onBlur={(e) => {
-          console.log(value);
           if (value.length == 0) {
             touched[name] = true;
-            console.log(touched[name]);
-            console.log(errors[name]);
           }
           handleBlur(e);
         }}

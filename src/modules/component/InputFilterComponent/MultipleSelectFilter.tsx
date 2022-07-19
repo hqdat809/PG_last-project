@@ -1,5 +1,5 @@
 import { IFilterUser, IOptions, IOptionsHasDisabled } from 'models/user';
-import React from 'react';
+import React, { memo } from 'react';
 import Select from 'react-select';
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 
 const MultipleSelectFilter = (props: Props) => {
   const { nameFilter, onChangeFilter, roleOptions } = props;
+  console.log(nameFilter, ' is loaded...');
 
   return (
     <Select
@@ -22,11 +23,10 @@ const MultipleSelectFilter = (props: Props) => {
         const selectRoles = e.map((item: IOptionsHasDisabled) => {
           return item.value;
         });
-        console.log(selectRoles);
         onChangeFilter(nameFilter, selectRoles);
       }}
     />
   );
 };
 
-export default MultipleSelectFilter;
+export default memo(MultipleSelectFilter);

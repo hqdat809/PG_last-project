@@ -8,6 +8,8 @@ interface Props {
 
 const TextFilter = (props: Props) => {
   const { onChangeFilter, nameFilter } = props;
+  console.log(nameFilter, ' is loaded...');
+
   return (
     <input
       type="text"

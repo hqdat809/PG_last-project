@@ -1,5 +1,5 @@
 import { IFilterUser, IOptionsHasDisabled } from 'models/user';
-import React from 'react';
+import React, { memo } from 'react';
 import Select from 'react-select';
 
 interface Props {
@@ -11,6 +11,7 @@ interface Props {
 
 const SingleSelectFilter = (props: Props) => {
   const { options, onChangeFilter, nameFilter, typeConvertValue } = props;
+  console.log(nameFilter, ' is loaded...');
 
   return (
     <Select
@@ -23,7 +24,6 @@ const SingleSelectFilter = (props: Props) => {
         if (e) {
           if (typeConvertValue === 'array') {
             if (!e.value) {
-              console.log(e.value);
               onChangeFilter(nameFilter, []);
             } else {
               onChangeFilter(nameFilter, [e.value]);
@@ -37,4 +37,4 @@ const SingleSelectFilter = (props: Props) => {
   );
 };
 
-export default SingleSelectFilter;
+export default memo(SingleSelectFilter);

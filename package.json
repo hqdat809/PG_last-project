@@ -36,6 +36,7 @@
     "react-router": "^5.2.1",
     "react-router-dom": "^5.3.0",
     "react-script": "^2.0.5",
+    "react-scripts": "^5.0.1",
     "react-select": "^5.3.2",
     "react-toastify": "^5.5.0",
     "reactstrap": "^9.1.2",
@@ -53,12 +54,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -72,6 +67,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.18.9",
     "@types/draft-js": "^0.11.9",
     "@types/draftjs-to-html": "^0.8.1",
     "@types/html-to-draftjs": "^1.4.0",
@@ -84,13 +80,27 @@
     "@types/react-router": "^5.1.16",
     "@types/react-router-dom": "^5.3.0",
     "@types/smoothscroll-polyfill": "^0.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/experimental-utils": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "@typescript-eslint/type-utils": "^5.30.6",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^25.7.0",
+    "eslint-plugin-jsx-a11y": "^6.6.0",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-testing-library": "^5.5.1",
+    "eslint-utils": "^3.0.0",
+    "eslint-webpack-plugin": "^3.2.0",
+    "fork-ts-checker-webpack-plugin": "^6.5.2",
     "formik": "^2.2.9",
     "http-proxy-middleware": "^2.0.1",
     "prettier": "^2.4.1",
-    "react-scripts": "^5.0.1",
+    "react-dev-utils": "^12.0.1",
     "yup": "^0.32.11"
   }
 }

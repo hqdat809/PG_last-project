@@ -2,7 +2,7 @@
   "welcome": "Xin chào",
   "email": "Địa chỉ Email",
   "password": "Mật khẩu",
-  "rememberMe": "Lưu thông tin đăng nhập",
+  "rememberMe": "Remember?",
   "emailRequire": "Vui lòng nhập địa chỉ email",
   "emailInvalid": "Địa chỉ email không hợp lệ",
   "passwordRequire": "Vui lòng nhập mật khẩu",

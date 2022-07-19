@@ -1,0 +1,133 @@
+.form-filter {
+    position: relative;
+    
+    .form-filter-show {
+        display: flex;
+        flex: 10;
+        justify-content: center;
+        align-items:flex-start;
+        gap: 5px;
+        background-color: var(--primary-color);
+        padding: 10px 20px;
+        margin-bottom: 2px;
+
+       
+
+        .btn-search {
+            height: 38px;
+            width: 120px;
+            margin-top: 30px;
+            background-color: var(--button-color);
+        }
+    }
+
+    .form-filter-hidden {
+
+        width: 100%;
+        background-color: var(--primary-color);
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        transition: transform 0.3s, opacity 0.3s;
+        display: none;
+
+
+        &.show {
+        display: flex;
+        }
+        
+        .field-filter-form {
+            // display: none;
+            margin-right: 20px;
+
+            .item-filter {
+                display: flex;
+                gap: 20px;
+
+                .wraper-input-filter {
+                    width: 250px;
+                }
+
+
+                .wraper-search-in {
+                    margin-top: 2px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px!important;
+
+                    div {
+                        display: flex;
+                        gap: 5px;
+
+                        p {
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+            &.show {
+                display: flex;
+                padding-right: 40px;
+            }
+        }
+
+        .left-filter-form, .right-filter-form {
+            padding: 20px 40px;
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 2s;
+
+
+            &.show {
+            display: flex;
+            padding: 10px 20px;
+            }
+
+            .item-filter {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                grid-gap: 10px!important;
+
+                label {
+                    flex: 1;
+                }
+
+                .wraper-input-filter {
+                    flex: 4;    
+                }
+            }
+        }
+        .right-filter-form {
+            flex: 2;
+            margin-left: 60px;
+
+            .date-selector {
+                width: 50%;
+            }
+        }
+    }
+
+    .sortcut-form {
+        left: 50%;
+        position: absolute;
+        background-color: var(--primary-color);
+        padding: 10px 25px;
+        border-radius: 10px;
+        bottom: -16px;
+
+        &:hover {cursor: pointer;}
+    }
+
+    // css select
+    .react-select-container {
+        .react-select__control {
+            background-color: var(--background-color)!important;
+        }
+    }
+
+    input {
+        padding: 8px 10px;
+    }
+}

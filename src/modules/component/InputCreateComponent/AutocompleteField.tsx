@@ -1,17 +1,15 @@
-import { IVendorList } from 'models/product';
-import { IFilterUser, IOptionsHasDisabled } from 'models/user';
-import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
-import AsyncSelect from 'react-select/async';
-import { Action } from 'redux';
-import thunk, { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
-import { fetchThunk } from 'modules/common/redux/thunk';
-import { useDispatch, useSelector } from 'react-redux';
-import { values } from 'lodash';
-import useDebounce from 'hooks/useDebounce';
-import 'modules/component/InputCreateComponent/AutocompleteField.scss';
 import { Field } from 'formik';
+import { AppState } from 'redux/reducer';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+
+import useDebounce from 'hooks/useDebounce';
+import { IVendorList } from 'models/product';
+import { IOptionsHasDisabled } from 'models/user';
+import { fetchThunk } from 'modules/common/redux/thunk';
+import 'modules/component/InputCreateComponent/AutocompleteField.scss';
 
 interface Props {
   handleSetValue(value: string): void;
@@ -66,13 +64,9 @@ const AutocompleteField = (props: Props) => {
         ''
       )
     );
-    console.log('check vendor', defaultIdVendor);
-    console.log(res.data);
     const defaultVendor = res.data?.filter((item: IVendorList) => item.id === defaultIdVendor);
-    console.log('check arr', defaultVendor);
     if (defaultVendor) {
       if (defaultVendor[0]) {
-        console.log(defaultVendor[0].name);
         setSearch(defaultVendor[0].name);
       }
     }
@@ -116,17 +110,14 @@ const AutocompleteField = (props: Props) => {
       <ul
         className="list-options"
         hidden={!isLoading && listVendor?.length === 0 && isTyping}
-        onBlur={() => {
-          console.log('blur');
-        }}
+        onBlur={() => {}}
       >
         {isLoading && <li>loading...</li>}
 
-        {listVendor?.map((item: IOptionsHasDisabled, index) => (
+        {listVendor?.map((item: IOptionsHasDisabled) => (
           <li
-            key={index}
+            key={item.value}
             onClick={() => {
-              console.log(item.label);
               setSearch(item.label);
               handleSetValue(item.value);
             }}

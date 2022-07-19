@@ -1,25 +1,25 @@
 import { ROUTES } from 'configs/routes';
 import { push } from 'connected-react-router';
 import flatpickr from 'flatpickr';
+import { Action } from 'redux';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { ThunkDispatch } from 'redux-thunk';
+import moment from 'moment';
 import 'flatpickr/dist/themes/material_green.css';
-import { IDeleteUSer, IFilterUser, IGetUser } from 'models/user';
+
+import { API_PATHS } from 'configs/api';
+import { IDeleteUSer, IFilterUser } from 'models/user';
 import { getListUser } from 'modules/auth/redux/userReducer';
+import LoadingPage from 'modules/common/components/LoadingPage';
+import { fetchThunk } from 'modules/common/redux/thunk';
 import FormFilterUser from 'modules/component/FormFilter/FormFilterUser';
+import ModalConfirmDelete from 'modules/component/ModalConfirmDelete/ModalConfirmDelete';
 import Pagination from 'modules/component/Pagination/Pagination';
 import TableListUser from 'modules/component/TableList/TableListUser';
 import 'modules/home/pages/HomePage.scss';
-import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
-import { Action } from 'redux';
-import thunk, { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
-import * as userService from 'service/userService';
-import React, { useEffect, useState } from 'react';
-import ModalConfirmDelete from 'modules/component/ModalConfirmDelete/ModalConfirmDelete';
 import { ItemPerPage } from 'modules/intl/constants';
-import { fetchThunk } from 'modules/common/redux/thunk';
-import LoadingPage from 'modules/common/components/LoadingPage';
-import { API_PATHS } from 'configs/api';
+import { AppState } from 'redux/reducer';
 
 const HomePage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
@@ -31,7 +31,6 @@ const HomePage = () => {
   const [isFiltering, setIsFiltering] = useState<boolean>();
   const [numberPage, setNumberPage] = useState<number>();
   const [numberUser, setNumberUser] = useState<number>();
-  const [countPerPage, setCountPerPage] = useState<number>();
   const [isLoading, setIsLoading] = useState(false);
   const [filterUser, setFilterUser] = useState<IFilterUser>({
     address: '',
@@ -58,19 +57,18 @@ const HomePage = () => {
     );
     setNumberPage(Math.ceil(json.recordsTotal / 25));
     dispatch(getListUser(json.data));
-    console.log('fetch: ', json);
     setNumberUser(Number(json.recordsTotal));
     setIsLoading(false);
   };
 
-  const handleFilter = async () => {
+  const handleFilter = async (values: IFilterUser) => {
     setIsLoading(true);
-    const json = await dispatch(fetchThunk(API_PATHS.listUser, 'post', filterUser, true, ''));
+    const json = await dispatch(fetchThunk(API_PATHS.listUser, 'post', values, true, ''));
+    setIsLoading(false);
     setNumberPage(Math.ceil(json.recordsTotal / filterUser.count));
     dispatch(getListUser(json.data));
     setIsFiltering(true);
     setNumberUser(Number(json.recordsTotal));
-    setIsLoading(false);
   };
 
   const handleChangePage = async (page: number) => {
@@ -106,7 +104,6 @@ const HomePage = () => {
       const formatSelectedDate = selectedDates.map((item) => {
         return moment(item).format('YYYY-MM-DD');
       });
-      console.log(formatSelectedDate);
       setFilterUser({ ...filterUser, date_range: formatSelectedDate });
     },
   });
@@ -181,14 +178,13 @@ const HomePage = () => {
                 );
                 setNumberPage(Math.ceil(json.recordsTotal / Number(e.target.value)));
                 dispatch(getListUser(json.data));
-                console.log('filter: ', json);
                 setIsFiltering(true);
                 setNumberUser(Number(json.recordsTotal));
               }
             }}
           >
-            {ItemPerPage.map((item, index) => (
-              <option key={index} value={item.value}>
+            {ItemPerPage.map((item) => (
+              <option key={item.value} value={item.value}>
                 {item.label}
               </option>
             ))}

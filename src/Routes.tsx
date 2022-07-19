@@ -13,10 +13,10 @@ import {
   IS_REMEMBER_FALSE,
 } from './utils/constants';
 
-const HomePage = lazy(() => import('./modules/home/pages/UserPage'));
+const UserPage = lazy(() => import('./modules/home/pages/UserPage'));
 const CreateUserPage = lazy(() => import('./modules/home/CreateUser/CreateUser'));
 const CreateProduct = lazy(() => import('./modules/home/CreateProduct/CreateProduct'));
-const ContactPage = lazy(() => import('./modules/home/pages/ContactPage'));
+const ProductPage = lazy(() => import('./modules/home/pages/ProductPage'));
 const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage2'));
 const UserDetail = lazy(() => import('./modules/home/UserDetail/UserDetail'));
 const ProductDetail = lazy(() => import('./modules/home/ProductDetail/ProductDetail'));
@@ -31,7 +31,13 @@ export const Routes = (props: Props) => {
 
   return (
     <>
-      <Suspense fallback={<div>Loading.....</div>}>
+      <Suspense
+        fallback={
+          <div className="page-loading">
+            <div className="loader"></div>
+          </div>
+        }
+      >
         {token ? <Header /> : true}
         <div className="content">
           {token ? <SideBar /> : true}
@@ -39,16 +45,16 @@ export const Routes = (props: Props) => {
             <Switch location={location}>
               <Route
                 path={ROUTES.login}
-                component={cookiesLogin === IS_REMEMBER_TRUE ? HomePage : LoginPage}
+                component={cookiesLogin === IS_REMEMBER_TRUE ? UserPage : LoginPage}
               />
-              <ProtectedRoute path={ROUTES.home} component={HomePage} />
+              <ProtectedRoute path={ROUTES.user} component={UserPage} />
               <ProtectedRoute path={ROUTES.createUser} component={CreateUserPage} />
-              <ProtectedRoute path={ROUTES.contact} component={ContactPage} />
+              <ProtectedRoute path={ROUTES.product} component={ProductPage} />
               <ProtectedRoute path={ROUTES.detailUser} component={UserDetail} />
               <ProtectedRoute path={ROUTES.createProduct} component={CreateProduct} />
               <ProtectedRoute path={ROUTES.productDetail} component={ProductDetail} />
 
-              <Route path="/" component={token ? HomePage : LoginPage} />
+              <Route path="/" component={token ? UserPage : LoginPage} />
             </Switch>
           </div>
           {/* <ToastContainer /> */}

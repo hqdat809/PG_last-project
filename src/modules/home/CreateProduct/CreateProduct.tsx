@@ -1,14 +1,21 @@
 import { faArrowLeftLong, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import flatpickr from 'flatpickr';
+import JoditEditor from 'jodit-react';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { ThunkDispatch } from 'redux-thunk';
+import { FastField, Field, Form, Formik } from 'formik';
+
 import { API_PATHS } from 'configs/api';
 import { ROUTES } from 'configs/routes';
 import { push } from 'connected-react-router';
 import InputField from 'CustomField/InputField/InputField';
 import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
 import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
-import flatpickr from 'flatpickr';
-import { FastField, Field, Form, Formik } from 'formik';
-import JoditEditor from 'jodit-react';
 import { IBranch } from 'models/product';
 import { setListBranch } from 'modules/auth/redux/productReducer';
 import { CreateProductSchema } from 'modules/auth/utils';
@@ -24,14 +31,8 @@ import {
   metaDesType,
   ogTagsType,
 } from 'modules/intl/constants';
-import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
+import { AppState } from 'redux/reducer';
 
 interface Props {}
 
@@ -39,7 +40,6 @@ const CreateProduct = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const listBranch = useSelector((state: AppState) => state.productManage.listBranch);
   const listCategory = useSelector((state: AppState) => state.productManage.listCategory);
-  const listCountry = useSelector((state: AppState) => state.userManage.listCountry);
 
   const [vendorId, setVendorId] = useState('');
   const [images, setImages] = useState<any[]>([]);
@@ -78,19 +78,33 @@ const CreateProduct = (props: Props) => {
     const data = images;
     const formData = new FormData();
     formData.append('productId', `${productId}`);
+    const promises = [];
     for (let i = 0; i < data.length; i++) {
       formData.append('order', `${i}`);
       formData.append('images[]', data[i]);
-      await dispatch(
-        fetchThunk(API_PATHS.uploadImage, 'post', formData, true, 'multipart/form-data')
+      promises.push(
+        dispatch(fetchThunk(API_PATHS.uploadImage, 'post', formData, true, 'multipart/form-data'))
       );
       formData.delete('order');
       formData.delete('images[]');
     }
+
+    return Promise.all(promises).then((response) => {
+      const isSuccess = response.every((item) => {
+        return item.success;
+      });
+      if (isSuccess) {
+        toast.success('Create Product Success! ');
+        hanldeMoveToDetail(productId);
+      } else {
+        toast.error('Upload images is error');
+      }
+      setIsLoading(false);
+    });
   };
 
   const handleClickBackSite = () => {
-    dispatch(push(ROUTES.contact));
+    dispatch(push(ROUTES.product));
   };
 
   return (
@@ -131,16 +145,13 @@ const CreateProduct = (props: Props) => {
         values.imagesOrder = imagesName;
         values.description = content;
 
-        console.log('check submit : ', values);
         const formData = new FormData();
         formData.append('productDetail', JSON.stringify(values));
         const json = await dispatch(
           fetchThunk(API_PATHS.createProduct, 'post', formData, true, 'multipart/form-data')
         );
         if (json.success) {
-          await handleUploadImages(json.data);
-          hanldeMoveToDetail(json.data);
-          toast.success('Create User Success! ');
+          const uploadImage = await handleUploadImages(json.data);
         } else {
           toast.error(json.errors);
         }
@@ -153,7 +164,7 @@ const CreateProduct = (props: Props) => {
           defaultDate: new Date(),
           dateFormat: 'Y-m-d',
           onChange: function (selectedDates, dateStr, instance) {
-            console.log(moment(selectedDates[0]).format('YYYY-MM-DD'));
+            moment(selectedDates[0]).format('YYYY-MM-DD');
             values.arrival_date = moment(selectedDates[0]).format('YYYY-MM-DD');
           },
         });
@@ -179,7 +190,6 @@ const CreateProduct = (props: Props) => {
         useEffect(() => {
           if (values.meta_desc_type == 'C') {
             setIsCustomMetaDes(true);
-            console.log('meta des: ', values.meta_desc_type);
           } else {
             values.meta_description = '';
             setIsCustomMetaDes(false);
@@ -274,9 +284,7 @@ const CreateProduct = (props: Props) => {
                     </div>
                     {/* sku */}
                     <div className="form-group field-create-product input-element">
-                      <label>
-                        SKU <p style={{ color: 'red' }}>*</p>
-                      </label>
+                      <label>SKU</label>
 
                       <div className="wrapper-input-field input-number">
                         <Field
@@ -354,8 +362,7 @@ const CreateProduct = (props: Props) => {
                       style={{ marginBottom: '20px' }}
                     >
                       <label htmlFor="inputEmail" className="form-label">
-                        Memberships
-                        <p style={{ color: 'red' }}>*</p>
+                        Membership
                       </label>
                       <div className="wrapper-input-field">
                         <FastField
@@ -487,7 +494,7 @@ const CreateProduct = (props: Props) => {
                     {/* shipping */}
                     <div className="form-group field-create-product input-element">
                       <label>
-                        Continental U.S. <p style={{ color: 'red' }}>*</p>
+                        Continental U.S <p style={{ color: 'red' }}>*</p>
                       </label>
 
                       <div className="wrapper-input-field">

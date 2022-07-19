@@ -1,14 +1,23 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { faArrowLeftLong, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { AppState } from 'redux/reducer';
+import { push } from 'connected-react-router';
+import JoditEditor from 'jodit-react';
+import { FastField, Field, Form, Formik } from 'formik';
+import moment from 'moment';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import flatpickr from 'flatpickr';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { API_PATHS } from 'configs/api';
 import { ROUTES } from 'configs/routes';
-import { push } from 'connected-react-router';
 import InputField from 'CustomField/InputField/InputField';
 import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
 import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
-import flatpickr from 'flatpickr';
-import { FastField, Field, Form, Formik } from 'formik';
-import JoditEditor from 'jodit-react';
 import { IBranch, IProductDetail } from 'models/product';
 import { setListBranch } from 'modules/auth/redux/productReducer';
 import { CreateProductSchema } from 'modules/auth/utils';
@@ -16,7 +25,6 @@ import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import AutocompleteField from 'modules/component/InputCreateComponent/AutocompleteField';
 import InputImage from 'modules/component/InputCreateComponent/InputImage';
-import TextInput from 'modules/component/InputCreateComponent/TextInput';
 import 'modules/home/ProductDetail/ProductDetail.scss';
 import {
   listCondition,
@@ -25,14 +33,6 @@ import {
   metaDesType,
   ogTagsType,
 } from 'modules/intl/constants';
-import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
 
 interface Props {}
 
@@ -65,7 +65,6 @@ const ProductDetail = (props: Props) => {
       )
     );
     setDetailProduct(res.data);
-    console.log('detail product: ', res.data);
     setVendorId(res.data.vendor_id);
     setContent(res.data.description);
     setIsLoading(false);
@@ -82,23 +81,37 @@ const ProductDetail = (props: Props) => {
   };
 
   // Xu li change image
+
   const handleUploadImages = async (productId: string) => {
     const data = images;
     const formData = new FormData();
     formData.append('productId', `${productId}`);
+    const promises = [];
     for (let i = 0; i < data.length; i++) {
       formData.append('order', `${i}`);
       formData.append('images[]', data[i]);
-      await dispatch(
-        fetchThunk(API_PATHS.uploadImage, 'post', formData, true, 'multipart/form-data')
+      promises.push(
+        dispatch(fetchThunk(API_PATHS.uploadImage, 'post', formData, true, 'multipart/form-data'))
       );
       formData.delete('order');
       formData.delete('images[]');
     }
+
+    Promise.all(promises).then((response) => {
+      const isSuccess = response.every((item) => {
+        return item.success;
+      });
+      if (isSuccess) {
+        toast.success('Update Product Success! ');
+      } else {
+        toast.error('Update images is error');
+      }
+      setIsLoading(false);
+    });
   };
 
   const handleClickBackSite = () => {
-    dispatch(push(ROUTES.contact));
+    dispatch(push(ROUTES.product));
   };
 
   useEffect(() => {
@@ -157,7 +170,6 @@ const ProductDetail = (props: Props) => {
           values.description = content;
           values.deleted_images = imageDelete;
 
-          console.log('check submit : ', values);
           const formData = new FormData();
           formData.append('productDetail', JSON.stringify(values));
           const json = await dispatch(
@@ -165,11 +177,9 @@ const ProductDetail = (props: Props) => {
           );
           if (json.success) {
             await handleUploadImages(json.data);
-            toast.success('Update Product Success! ');
           } else {
             toast.error(json.errors);
           }
-          setIsLoading(false);
         }}
         validationSchema={CreateProductSchema}
       >
@@ -178,7 +188,6 @@ const ProductDetail = (props: Props) => {
             defaultDate: Number(detailProduct.arrival_date) * 1000,
             dateFormat: 'Y-m-d',
             onChange: function (selectedDates, dateStr, instance) {
-              console.log(moment(selectedDates[0]).format('YYYY-MM-DD'));
               values.arrival_date = moment(selectedDates[0]).format('YYYY-MM-DD');
             },
           });
@@ -204,7 +213,6 @@ const ProductDetail = (props: Props) => {
           useEffect(() => {
             if (values.meta_desc_type == 'C') {
               setIsCustomMetaDes(true);
-              console.log('meta des: ', values.meta_desc_type);
             } else {
               values.meta_description = '';
               setIsCustomMetaDes(false);
@@ -228,7 +236,7 @@ const ProductDetail = (props: Props) => {
                         </button>
                       </div>
                       <div className="title-page">
-                        <h1 style={{ color: '#fff' }}>Add Product</h1>
+                        <h1 style={{ color: '#fff' }}>{detailProduct.name}</h1>
                       </div>
                       {/* vendor */}
                       <div
@@ -486,12 +494,12 @@ const ProductDetail = (props: Props) => {
                         </label>
 
                         <div className="wrapper-input-field">
-                          <TextInput
-                            type="number"
+                          <FastField
                             name="quantity"
-                            error={errors.quantity}
-                            touched={touched.quantity}
-                            isShowError={true}
+                            component={InputField}
+                            label=""
+                            placeholder=""
+                            type="number"
                           />
                         </div>
                       </div>
@@ -508,12 +516,15 @@ const ProductDetail = (props: Props) => {
                         </label>
 
                         <div className="wrapper-input-field">
-                          <TextInput
-                            type="number"
+                          <button className="label-input" disabled>
+                            $
+                          </button>
+                          <FastField
                             name="shipping_to_zones[0].price"
-                            error={undefined}
-                            touched={undefined}
-                            isShowError={false}
+                            component={InputField}
+                            label=""
+                            placeholder="0.00"
+                            type="number"
                           />
                         </div>
                       </div>

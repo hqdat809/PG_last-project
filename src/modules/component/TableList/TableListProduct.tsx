@@ -154,9 +154,9 @@ const TableListProduct = (props: Props) => {
       </thead>
       <tbody>
         {listProduct &&
-          listProduct?.map((item, index) => {
+          listProduct?.map((item) => {
             return (
-              <tr className="item-table" key={index}>
+              <tr className="item-table" key={item.id}>
                 <th scope="row" className="check-box-delete">
                   <div className="wrapper-check-box-delete">
                     <input
@@ -173,7 +173,6 @@ const TableListProduct = (props: Props) => {
                           });
                           const newArraySelected = multiDelete;
                           newArraySelected.splice(removeUserSelected, 1);
-                          console.log('check new array: ', newArraySelected);
                           setmultiDelete(newArraySelected);
                         }
                       }}

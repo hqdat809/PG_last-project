@@ -1,35 +1,20 @@
-import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AppState } from 'redux/reducer';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
+import React, { useEffect } from 'react';
 import 'flatpickr/dist/themes/material_green.css';
-import {
-  ICategory,
-  ICountry,
-  ICountrySelect,
-  IFilterUser,
-  IOptionsHasDisabled,
-  IRolesUser,
-} from 'models/user';
-import MultipleSelectFilter from 'modules/component/InputFilterComponent/MultipleSelectFilter';
+import { useDispatch, useSelector } from 'react-redux';
+import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
+
+import { IFilterProduct, IVendorList } from 'models/product';
+import { ICategory, IOptionsHasDisabled } from 'models/user';
+import { setListCategory } from 'modules/auth/redux/productReducer';
+import { fetchThunk } from 'modules/common/redux/thunk';
 import SingleSelectFilter from 'modules/component/InputFilterComponent/SingleSelectFilter';
 import TextFilter from 'modules/component/InputFilterComponent/TextFilter';
-import UserActivityRadio from 'modules/component/InputFilterComponent/UserActivityRadio';
 import 'modules/home/pages/HomePage.scss';
-import {
-  listAvailability,
-  listMemberShip,
-  listStatus,
-  listStockStatus,
-} from 'modules/intl/constants';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import * as userService from 'service/userService';
-import { boolean } from 'yup';
-import { Action } from 'redux';
-import thunk, { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
-import { fetchThunk } from 'modules/common/redux/thunk';
-import { IFilterProduct, IVendorList } from 'models/product';
-import { setListCategory } from 'modules/auth/redux/productReducer';
+import { listAvailability, listStockStatus } from 'modules/intl/constants';
 import RecommendInput from '../InputFilterComponent/RecommendInput';
 
 interface Props {
@@ -63,7 +48,6 @@ const FormFilter = (props: Props) => {
       return { value: item.id, label: item.name, disabled: false };
     });
     category.unshift({ value: '', label: 'Any Category', disabled: false });
-    console.log('check category: ', category);
     dispatch(setListCategory(category));
   };
 
@@ -100,8 +84,6 @@ const FormFilter = (props: Props) => {
   useEffect(() => {
     loadSearchVendor();
   }, [searchVendor]);
-
-  console.log('check list search vendor: ', listSearchVendor);
 
   return (
     <form

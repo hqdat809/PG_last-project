@@ -1,26 +1,28 @@
 import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'flatpickr/dist/themes/material_green.css';
-import { ICountry, ICountrySelect, IFilterUser, IRolesUser } from 'models/user';
-import MultipleSelectFilter from 'modules/component/InputFilterComponent/MultipleSelectFilter';
-import SingleSelectFilter from 'modules/component/InputFilterComponent/SingleSelectFilter';
-import TextFilter from 'modules/component/InputFilterComponent/TextFilter';
-import UserActivityRadio from 'modules/component/InputFilterComponent/UserActivityRadio';
-import 'modules/home/pages/HomePage.scss';
-import { listMemberShip, listStatus } from 'modules/intl/constants';
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as userService from 'service/userService';
-import { boolean } from 'yup';
 import { Action } from 'redux';
-import thunk, { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
-import { fetchThunk } from 'modules/common/redux/thunk';
-import { setListCountry, setListRole } from 'modules/auth/redux/userReducer';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState } from 'redux/reducer';
+
 import { API_PATHS } from 'configs/api';
+import GroupRadio from 'CustomField/GroupRadio/GroupRadio';
+import InputField from 'CustomField/InputField/InputField';
+import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
+import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
+import flatpickr from 'flatpickr';
+import { FastField, Form, Formik } from 'formik';
+import { ICountry, IFilterUser, IRolesUser } from 'models/user';
+import { setListCountry, setListRole } from 'modules/auth/redux/userReducer';
+import { fetchThunk } from 'modules/common/redux/thunk';
+import 'modules/component/FormFilter/FormFilter.scss';
+import { listMemberShip, listStatus } from 'modules/intl/constants';
+import moment from 'moment';
 
 interface Props {
-  handleFilter(): void;
+  handleFilter(values: IFilterUser): void;
   setFilterUser(filterUser: IFilterUser): void;
   filterUser: IFilterUser;
 }
@@ -42,7 +44,6 @@ const FormFilter = (props: Props) => {
       return { value: item.id, label: item.name, disable: false };
     });
     dispatch(setListRole(roleOptionSelect));
-    console.log('res fetch role: ', res);
   };
 
   const fetchCountry = async () => {
@@ -55,12 +56,6 @@ const FormFilter = (props: Props) => {
     selectCountry.unshift({ value: '', label: 'All country', disabled: false });
 
     dispatch(setListCountry(selectCountry));
-
-    console.log('res fetch country: ', res);
-  };
-
-  const onChangeFilter = (nameFilter: string, value: any) => {
-    setFilterUser({ ...filterUser, [nameFilter]: value });
   };
 
   useEffect(() => {
@@ -69,142 +64,207 @@ const FormFilter = (props: Props) => {
   }, []);
 
   return (
-    <form
-      style={{ display: 'flex', flexDirection: 'row', width: '100%' }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleFilter();
-      }}
-    >
-      <fieldset className="form-filter" style={{ width: '100%' }}>
-        <div className="form-filter-show">
-          {/* search keywords */}
-          <div className="mb-3" style={{ width: '100%' }}>
-            <label className="form-label">Search keywords</label>
-            <TextFilter onChangeFilter={onChangeFilter} nameFilter="search" />
-          </div>
-          {/* search user types */}
-          <div className="mb-3" style={{ width: '100%' }}>
-            <label className="form-label">User types</label>
-            <MultipleSelectFilter
-              roleOptions={roleOptions}
-              nameFilter="types"
-              onChangeFilter={onChangeFilter}
-            />
-          </div>
-          {/* search status */}
-          <div className="mb-3" style={{ width: '100%' }}>
-            <label htmlFor="inputEmail" className="form-label">
-              Status
-            </label>
-            <div className="">
-              <SingleSelectFilter
-                onChangeFilter={onChangeFilter}
-                options={listStatus}
-                nameFilter="status"
-                typeConvertValue="array"
-              />
-            </div>
-          </div>
-          {/* search member ships */}
-          <div className="mb-3" style={{ width: '100%' }}>
-            <label htmlFor="inputEmail" className="form-label">
-              Member Ships
-            </label>
-            <div className="">
-              <SingleSelectFilter
-                onChangeFilter={onChangeFilter}
-                options={listMemberShip}
-                nameFilter="memberships"
-                typeConvertValue="array"
-              />
-            </div>
-          </div>
-          <button type="submit" className="btn btn-primary btn-search">
-            Search
-          </button>
-        </div>
-        {/* hidden form */}
-        <div className={`form-filter-hidden ${isHiddenForm ? '' : 'show'}`}>
-          <div className={`left-filter-form ${isHiddenForm ? '' : 'show'}`}>
-            <div className="item-filter">
-              <label htmlFor="inputEmail" className="form-label">
-                Availability
-              </label>
-              <div className="wraper-input-filter">
-                <SingleSelectFilter
-                  onChangeFilter={onChangeFilter}
-                  options={countryOptions ? countryOptions : []}
-                  nameFilter="country"
-                  typeConvertValue="array"
-                />
-              </div>
-            </div>
-            <div className="item-filter">
-              <label htmlFor="inputEmail" className="form-label">
-                State
-              </label>
-              <div className="wraper-input-filter">
-                <TextFilter onChangeFilter={onChangeFilter} nameFilter="state" />
-              </div>
-            </div>
-            <div className="item-filter">
-              <label htmlFor="inputEmail" className="form-label">
-                Address
-              </label>
-              <div className="wraper-input-filter">
-                <TextFilter onChangeFilter={onChangeFilter} nameFilter="address" />
-              </div>
-            </div>
-            <div className="item-filter">
-              <label htmlFor="inputEmail" className="form-label">
-                Phone
-              </label>
-              <div className="wraper-input-filter">
-                <TextFilter onChangeFilter={onChangeFilter} nameFilter="phone" />
-              </div>
-            </div>
-          </div>
-          <div className={`right-filter-form ${isHiddenForm ? '' : 'show'}`}>
-            <div className="item-filter">
-              <label htmlFor="inputEmail" className="form-label">
-                User activity
-              </label>
-              <div className="wraper-input-filter" style={{ display: 'flex', gap: '20px' }}>
-                <UserActivityRadio setFilterUser={setFilterUser} filterUser={filterUser} />
-              </div>
-            </div>
-            <div className="item-filter">
-              <label htmlFor="inputEmail" className="form-label"></label>
-              <div className="wraper-input-filter">
-                <input
-                  type="text"
-                  id="disabledTextInput"
-                  className="form-control date-selector"
-                  style={{ paddingBottom: '11px' }}
-                  onChange={(e) => {
-                    // console.log(e.selectedDates);
+    <>
+      <Formik
+        initialValues={{
+          address: '',
+          count: 25,
+          country: '',
+          date_range: new Array(),
+          date_type: 'R',
+          memberships: [],
+          order_by: 'DESC',
+          page: 1,
+          phone: '',
+          search: '',
+          sort: 'last_login',
+          state: '',
+          status: [],
+          types: [],
+          tz: 7,
+        }}
+        onSubmit={async (values) => {
+          handleFilter(values);
+        }}
+      >
+        {({ values }) => {
+          flatpickr('.date-selector', {
+            altInput: true,
+            altFormat: 'M d Y',
+            dateFormat: 'Y-m-d',
+            mode: 'range',
+            conjunction: ' - ',
+            onChange: function (selectedDates, dateStr, instance) {
+              const formatSelectedDate = selectedDates.map((item) => {
+                return moment(item).format('YYYY-MM-DD');
+              });
+              values.date_range = formatSelectedDate;
+            },
+          });
+          return (
+            <Form style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+              <fieldset className="form-filter" style={{ width: '100%' }}>
+                <div className="form-filter-show">
+                  {/* search keywords */}
+                  <div className="mb-3" style={{ width: '100%' }}>
+                    <label className="form-label">Search keywords</label>
+                    <FastField
+                      name="search"
+                      component={InputField}
+                      label=""
+                      placeholder="Search..."
+                      type="text"
+                    />
+                  </div>
+                  {/* search user types */}
+                  <div className="mb-3" style={{ width: '100%' }}>
+                    <label className="form-label">User types</label>
+                    <FastField
+                      name="types"
+                      component={MultiSelectField}
+                      label=""
+                      placeholder="Chose roles..."
+                      options={roleOptions}
+                    />
+                  </div>
+                  {/* search status */}
+                  <div className="mb-3" style={{ width: '100%' }}>
+                    <label htmlFor="inputEmail" className="form-label">
+                      Status
+                    </label>
+                    <FastField
+                      name="status"
+                      component={SingleSelectField}
+                      label=""
+                      placeholder="Status..."
+                      options={listStatus}
+                    />
+                  </div>
+                  {/* search member ships */}
+                  <div className="mb-3" style={{ width: '100%' }}>
+                    <label htmlFor="inputEmail" className="form-label">
+                      Member Ships
+                    </label>
+                    <FastField
+                      name="memberships"
+                      component={MultiSelectField}
+                      label=""
+                      placeholder="Any member ship..."
+                      options={listMemberShip}
+                    />
+                  </div>
+                  <button type="submit" className="btn btn-primary btn-search">
+                    Search
+                  </button>
+                </div>
+                {/* hidden form */}
+                <div className={`form-filter-hidden ${isHiddenForm ? '' : 'show'}`}>
+                  <div className={`left-filter-form ${isHiddenForm ? '' : 'show'}`}>
+                    <div className="item-filter">
+                      <label htmlFor="inputEmail" className="form-label">
+                        Availability
+                      </label>
+                      <div className="wraper-input-filter">
+                        <FastField
+                          name="country"
+                          component={SingleSelectField}
+                          label=""
+                          placeholder="Type..."
+                          options={countryOptions}
+                        />
+                      </div>
+                    </div>
+                    <div className="item-filter">
+                      <label htmlFor="inputEmail" className="form-label">
+                        State
+                      </label>
+                      <div className="wraper-input-filter">
+                        <FastField
+                          name="state"
+                          component={InputField}
+                          label=""
+                          placeholder="State..."
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div className="item-filter">
+                      <label htmlFor="inputEmail" className="form-label">
+                        Address
+                      </label>
+                      <div className="wraper-input-filter">
+                        <FastField
+                          name="address"
+                          component={InputField}
+                          label=""
+                          placeholder="Address..."
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div className="item-filter">
+                      <label htmlFor="inputEmail" className="form-label">
+                        Phone
+                      </label>
+                      <div className="wraper-input-filter">
+                        <FastField
+                          name="phone"
+                          component={InputField}
+                          label=""
+                          placeholder="Phone..."
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className={`right-filter-form ${isHiddenForm ? '' : 'show'}`}>
+                    <div className="item-filter">
+                      <label htmlFor="inputEmail" className="form-label">
+                        User activity
+                      </label>
+                      <div className="wraper-input-filter" style={{ display: 'flex', gap: '20px' }}>
+                        {/* <UserActivityRadio setFilterUser={setFilterUser} filterUser={filterUser} /> */}
+                        <FastField
+                          name="date_type"
+                          component={GroupRadio}
+                          label=""
+                          placeholder=""
+                          type="radio"
+                        />
+                      </div>
+                    </div>
+                    <div className="item-filter">
+                      <label htmlFor="inputEmail" className="form-label"></label>
+                      <div className="wraper-input-filter">
+                        <input
+                          type="text"
+                          id="disabledTextInput"
+                          className="form-control date-selector"
+                          style={{ paddingBottom: '11px' }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span
+                  className="sortcut-form"
+                  onClick={() => {
+                    setIsHiddenForm(!isHiddenForm);
                   }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <span
-          className="sortcut-form"
-          onClick={() => {
-            setIsHiddenForm(!isHiddenForm);
-          }}
-        >
-          {isHiddenForm ? (
-            <FontAwesomeIcon icon={faAngleDoubleDown} />
-          ) : (
-            <FontAwesomeIcon icon={faAngleDoubleUp} />
-          )}
-        </span>
-      </fieldset>
-    </form>
+                >
+                  {isHiddenForm ? (
+                    <FontAwesomeIcon icon={faAngleDoubleDown} />
+                  ) : (
+                    <FontAwesomeIcon icon={faAngleDoubleUp} />
+                  )}
+                </span>
+              </fieldset>
+            </Form>
+          );
+        }}
+      </Formik>
+    </>
   );
 };
 
-export default FormFilter;
+export default memo(FormFilter);

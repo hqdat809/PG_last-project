@@ -1,23 +1,24 @@
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { FastField, Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
+import { push } from 'connected-react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { API_PATHS } from 'configs/api';
 import { ROUTES } from 'configs/routes';
-import { push } from 'connected-react-router';
 import InputField from 'CustomField/InputField/InputField';
 import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
 import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
-import { FastField, Form, Formik } from 'formik';
 import { CreateUserSchema } from 'modules/auth/utils';
 import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import 'modules/home/CreateUser/CreateUser.scss';
 import { listAccessLevel, listMemberCreate, listType } from 'modules/intl/constants';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
+import { AppState } from 'redux/reducer';
 
 interface Props {}
 
@@ -25,13 +26,11 @@ const CreateUser = (props: Props) => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const listRole = useSelector((state: AppState) => state.userManage.listRole);
 
-  const [multiRoles, setMultiRoles] = React.useState([]);
-  const [options, setOptions] = React.useState<[]>([]);
   const [isAdmin, setIsAdmin] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleClickBackSite = () => {
-    dispatch(push(ROUTES.home));
+    dispatch(push(ROUTES.user));
   };
 
   return (
@@ -51,11 +50,10 @@ const CreateUser = (props: Props) => {
       }}
       onSubmit={async (values) => {
         setIsLoading(true);
-        console.log(values);
         const json = await dispatch(fetchThunk(API_PATHS.createUser, 'post', values, true, ''));
         if (!json.errors) {
           toast.success('Create User Success! ');
-          dispatch(push(ROUTES.home));
+          dispatch(push(ROUTES.user));
         } else {
           toast.error(json.errors);
         }
@@ -63,7 +61,8 @@ const CreateUser = (props: Props) => {
       }}
       validationSchema={CreateUserSchema}
     >
-      {({ errors, touched, values, handleChange }) => {
+      {({ values, dirty }) => {
+        console.log(dirty);
         useEffect(() => {
           if (values.access_level === '100') {
             setIsAdmin(true);
@@ -274,8 +273,13 @@ const CreateUser = (props: Props) => {
                         </div>
                       </div>
                     </div>
+
                     <div className="footer">
-                      <button type="submit" className="btn btn-primary btn-submit-create">
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-submit-create"
+                        disabled={!dirty}
+                      >
                         Create account
                       </button>
                     </div>

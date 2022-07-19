@@ -1,10 +1,9 @@
-import { IOptions } from 'models/user';
-import PropTypes from 'prop-types';
-import React from 'react';
-import Select from 'react-select';
-import { FormGroup, Label, FormFeedback } from 'reactstrap';
 import 'CustomField/SelectField/SelectField.scss';
-import { ErrorMessage } from 'formik';
+import { IOptions } from 'models/user';
+
+import Select from 'react-select';
+import { FormGroup } from 'reactstrap';
+import React from 'react';
 
 interface Props {
   field: any;
@@ -27,8 +26,9 @@ function SingleSelectField(props: Props) {
   const { field, options, label, placeholder, disabled, form } = props;
   const { name, value } = field;
   const { errors, touched, handleBlur } = form;
-  const showError = errors[name] && touched[name];
   const selectedOption = options.find((option: IOptions) => option.value === value);
+
+  console.log(name, ' is loaded...');
 
   const handleSelectedOptionChange = (selectedOption: IOptions) => {
     const selectedValue = selectedOption ? selectedOption.value : selectedOption;
@@ -56,8 +56,6 @@ function SingleSelectField(props: Props) {
           onBlur={(e) => {
             if (value === '') {
               touched[name] = true;
-              console.log(touched[name]);
-              console.log(errors[name]);
             }
             handleBlur(e);
           }}

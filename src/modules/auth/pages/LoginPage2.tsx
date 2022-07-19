@@ -38,38 +38,26 @@ const LoginPage = () => {
       const json = await dispatch(
         fetchThunk(API_PATHS.signIn, 'post', { email: values.email, password: values.password })
       );
-      console.log(json);
 
       setLoading(false);
 
       if (!json?.errors) {
-        console.log('succes');
-
-        if (values.rememberMe) {
-          Cookies.set(IS_REMEMBER, IS_REMEMBER_TRUE);
-        } else {
-          Cookies.set(IS_REMEMBER, IS_REMEMBER_FALSE);
-        }
-
         Cookies.set(ACCESS_TOKEN_KEY, json.user_cookie, {
-          expires: values.rememberMe ? 7 : undefined,
+          expires: 7,
         });
 
         Cookies.set(USER_INFO, JSON.stringify(json.user), {
-          expires: values.rememberMe ? 7 : undefined,
+          expires: 7,
         });
-
-        // Cookies.set(IS_LOGGED_IN, "true", { expires: values.rememberMe ? 7 : undefined });
 
         dispatch(setUserInfo(json.user));
         dispatch(setAuthorization(json.user_cookie));
-
-        dispatch(replace(ROUTES.home));
+        dispatch(replace(ROUTES.user));
 
         return;
       }
 
-      setErrorMessage(getErrorMessageResponse(json));
+      setErrorMessage(json.errors.email);
     },
     [dispatch]
   );

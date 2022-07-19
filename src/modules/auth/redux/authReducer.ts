@@ -1,11 +1,5 @@
-import { IUserCreate } from './../../../models/user';
+import { IGetUser, IUser } from 'models/user';
 import { ActionType, createCustomAction, getType } from 'typesafe-actions';
-import { AuthToken, IUser, IGetUser } from 'models/user';
-import { useDispatch } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
-import * as userService from 'service/userService';
-import { stat } from 'fs';
 
 export interface AuthState {
   accessToken?: string;

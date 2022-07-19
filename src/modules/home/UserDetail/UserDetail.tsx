@@ -1,26 +1,27 @@
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { API_PATHS } from 'configs/api';
+import { AppState } from 'redux/reducer';
 import { ROUTES } from 'configs/routes';
 import { push } from 'connected-react-router';
+import { FastField, Form, Formik } from 'formik';
+import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { useParams } from 'react-router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { API_PATHS } from 'configs/api';
 import InputField from 'CustomField/InputField/InputField';
 import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
 import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
-import { FastField, Form, Formik } from 'formik';
 import { IUserDetail } from 'models/user';
 import { UpdateUserSchema } from 'modules/auth/utils';
 import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import 'modules/home/UserDetail/UserDetail.scss';
 import { listMemberCreate, listStatusCreate, listType } from 'modules/intl/constants';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
 
 interface Props {}
 
@@ -51,7 +52,7 @@ const UserDetail = (props: Props) => {
   }, []);
 
   const handleClickBackSite = () => {
-    dispatch(push(ROUTES.home));
+    dispatch(push(ROUTES.user));
   };
 
   if (!userDetail) {
@@ -82,7 +83,7 @@ const UserDetail = (props: Props) => {
           );
           if (!json.errors) {
             toast.success('Update User Success! ');
-            dispatch(push(ROUTES.home));
+            dispatch(push(ROUTES.user));
           } else {
             toast.error(json.errors);
           }
@@ -308,7 +309,6 @@ const UserDetail = (props: Props) => {
                             placeholder="Chose roles..."
                             options={listRole}
                           />
-                          {console.log(userDetail.roles)}
                         </div>
                       </div>
                       {/* member ships */}

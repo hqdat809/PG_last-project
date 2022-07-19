@@ -1,9 +1,9 @@
-import { ErrorMessage } from 'formik';
+import { ErrorMessage, Field } from 'formik';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormGroup, Input, Label } from 'reactstrap';
 
-InputField.propTypes = {
+GroupRadio.propTypes = {
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
 
@@ -13,7 +13,7 @@ InputField.propTypes = {
   disabled: PropTypes.bool,
 };
 
-InputField.defaultProps = {
+GroupRadio.defaultProps = {
   type: 'text',
   label: '',
   placeholder: '',
@@ -30,18 +30,28 @@ interface Props {
   type: string;
 }
 
-function InputField(props: Props) {
+function GroupRadio(props: Props) {
   const { field, type, label, placeholder, disabled } = props;
   const { name } = field;
 
   console.log(name, ' is reloaded...');
 
   return (
-    <FormGroup>
-      <Input id={name} {...field} type={type} disabled={disabled} placeholder={placeholder} />
-      <ErrorMessage name={name} />
-    </FormGroup>
+    <div role="group" aria-labelledby="my-radio-group">
+      <label style={{ marginRight: '15px' }}>
+        <Field type="radio" name={name} value="R" />
+        Register
+      </label>
+      <label>
+        <Field type="radio" name={name} value="L" />
+        Last logged in
+      </label>
+    </div>
+    // <FormGroup>
+    //   <Input id={name} {...field} type={type} disabled={disabled} placeholder={placeholder} />
+    //   <ErrorMessage name={name} />
+    // </FormGroup>
   );
 }
 
-export default InputField;
+export default GroupRadio;

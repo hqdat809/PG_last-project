@@ -3,7 +3,6 @@ import 'modules/component/InputCreateComponent/InputImage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Image } from 'models/product';
-import { number } from 'yup';
 
 interface Props {
   setImages(images: any[]): void;
@@ -19,16 +18,10 @@ const InputImage = (props: Props) => {
   const [arrOldImages, setArrOldImages] = useState<any[]>();
   const [numberImageDelete, setNumberImageDelete] = useState<number[]>([]);
 
-  useEffect(() => {
-    setArrOldImages(oldImages);
-  }, []);
-
   const handleWhenImagesChange = () => {
-    console.log('check images: ', images);
     const arrURL = new Array();
     const arrName = new Array();
     for (let i = 0; i < images.length; i++) {
-      console.log(URL.createObjectURL(images[i]));
       arrURL.push(URL.createObjectURL(images[i]));
       arrName.push(images[i].name);
     }
@@ -36,19 +29,13 @@ const InputImage = (props: Props) => {
     setPreviewURL(arrURL);
   };
 
-  useEffect(() => {
-    handleWhenImagesChange();
-  }, [images]);
-
   const handleDeleteImage = (index: number) => {
-    console.log('delete');
     const newImages = images;
     newImages?.splice(index, 1);
     setImages([...newImages]);
   };
 
   const hanldeDeleteOldImage = (index: number, id: string) => {
-    console.log(index);
     const newOldImages = oldImages;
     newOldImages?.splice(index, 1);
     setNumberImageDelete([...numberImageDelete, Number(id)]);
@@ -56,16 +43,22 @@ const InputImage = (props: Props) => {
   };
 
   useEffect(() => {
+    setArrOldImages(oldImages);
+  }, []);
+
+  useEffect(() => {
+    handleWhenImagesChange();
+  }, [images]);
+
+  useEffect(() => {
     setImageDelete(numberImageDelete);
   }, [numberImageDelete]);
-
-  console.log(previewURL);
 
   return (
     <div className="wrapper-input-image">
       {arrOldImages?.map((item: Image, index) => {
         return (
-          <div className="wrapper-image" key={index}>
+          <div className="wrapper-image" key={item.id}>
             <img src={item.thumbs[2]} alt="selected photo" />
             <span
               className="delete-image"
@@ -78,6 +71,7 @@ const InputImage = (props: Props) => {
           </div>
         );
       })}
+
       {previewURL &&
         previewURL?.map((item, index) => {
           return (
@@ -94,6 +88,7 @@ const InputImage = (props: Props) => {
             </div>
           );
         })}
+
       <div className="label-select-image">
         <label htmlFor="imageInput">
           <FontAwesomeIcon icon={faCamera} style={{ width: '100px', height: '100px' }} />

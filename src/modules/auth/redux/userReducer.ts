@@ -1,11 +1,6 @@
-import { IUserCreate, IOptionsHasDisabled } from './../../../models/user';
+import { IGetUser } from 'models/user';
 import { ActionType, createCustomAction, getType } from 'typesafe-actions';
-import { AuthToken, IUser, IGetUser } from 'models/user';
-import { useDispatch } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '../../../redux/reducer';
-import * as userService from 'service/userService';
-import { stat } from 'fs';
+import { IOptionsHasDisabled } from './../../../models/user';
 
 export interface UserManagerState {
   listUser?: IGetUser[];
