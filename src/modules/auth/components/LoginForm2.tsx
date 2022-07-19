@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { ILoginParams } from 'models/auth';
 import EmailField from 'modules/component/LoginComponent/EmailField';
 import PasswordField from 'modules/component/LoginComponent/PasswordField';
-import { SignupSchema } from 'modules/auth/utils';
+import { SigningSchema } from 'modules/auth/utils';
 
 interface Props {
   onLogin(values: ILoginParams): void;
@@ -25,7 +25,7 @@ const LoginForm = (props: Props) => {
             onLogin(values);
           }, 500);
         }}
-        validationSchema={SignupSchema}
+        validationSchema={SigninSchema}
       >
         {({ touched, errors, isValid }) => {
           console.log(isValid);

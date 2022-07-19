@@ -37,7 +37,7 @@ export const validLogin = (values: ILoginValidation) => {
   return !values.email && !values.password;
 };
 
-export const SignupSchema = Yup.object().shape({
+export const SigninSchema = Yup.object().shape({
   email: Yup.string().email().required('Required'),
   password: Yup.string()
     .required('No password provided.')
