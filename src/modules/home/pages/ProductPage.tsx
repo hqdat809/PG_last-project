@@ -9,7 +9,7 @@ import 'flatpickr/dist/themes/material_green.css';
 
 import { IFilterProduct } from 'models/product';
 import { IDeleteUSer } from 'models/user';
-import { getListProduct } from 'modules/auth/redux/productReducer';
+import { getListProduct } from 'modules/home/redux/productReducer';
 import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import FormFilterProduct from 'modules/component/FormFilter/FormFilterProduct';
@@ -81,17 +81,11 @@ const ContactPage = () => {
     setIsLoading(false);
   };
 
-  const handleFilter = async () => {
+  const handleFilter = async (values: IFilterProduct) => {
     setIsLoading(true);
 
     const json = await dispatch(
-      fetchThunk(
-        'https://api.gearfocus.div4.pgtest.co/api/products/list',
-        'post',
-        filterProduct,
-        true,
-        ''
-      )
+      fetchThunk('https://api.gearfocus.div4.pgtest.co/api/products/list', 'post', values, true, '')
     );
     setNumberPage(Math.ceil(json.recordsTotal / filterProduct.count));
     dispatch(getListProduct(json.data));

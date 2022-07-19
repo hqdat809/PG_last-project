@@ -1,6 +1,6 @@
 import { ActionType, createCustomAction, getType } from 'typesafe-actions';
-import { IGetProduct } from './../../../models/product';
-import { IOptions, IOptionsHasDisabled } from './../../../models/user';
+import { IGetProduct } from '../../../models/product';
+import { IOptions, IOptionsHasDisabled } from '../../../models/user';
 
 export interface ProductState {
   listProduct?: IGetProduct[];

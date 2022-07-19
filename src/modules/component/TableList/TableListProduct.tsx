@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { fetchThunk } from 'modules/common/redux/thunk';
-import { getListProduct } from 'modules/auth/redux/productReducer';
+import { getListProduct } from 'modules/home/redux/productReducer';
 import { IFilterProduct } from 'models/product';
 
 interface Props {

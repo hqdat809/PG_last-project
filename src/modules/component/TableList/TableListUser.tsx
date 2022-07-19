@@ -11,7 +11,7 @@ import 'flatpickr/dist/themes/material_green.css';
 import { IDeleteUSer, IFilterUser, IGetUser } from 'models/user';
 import 'modules/home/pages/HomePage.scss';
 import { AppState } from 'redux/reducer';
-import { getListUser } from 'modules/auth/redux/userReducer';
+import { getListUser } from 'modules/home/redux/userReducer';
 import { fetchThunk } from 'modules/common/redux/thunk';
 
 interface Props {

@@ -1,24 +1,25 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { AppState } from 'redux/reducer';
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
-import React, { useEffect } from 'react';
-import 'flatpickr/dist/themes/material_green.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import 'flatpickr/dist/themes/material_green.css';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppState } from 'redux/reducer';
 
+import AutocompleteField from 'CustomField/AutocompletedField/AutocompletedField';
+import InputField from 'CustomField/InputField/InputField';
+import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
+import { FastField, Form, Formik } from 'formik';
 import { IFilterProduct, IVendorList } from 'models/product';
 import { ICategory, IOptionsHasDisabled } from 'models/user';
-import { setListCategory } from 'modules/auth/redux/productReducer';
+import { setListCategory } from 'modules/home/redux/productReducer';
 import { fetchThunk } from 'modules/common/redux/thunk';
-import SingleSelectFilter from 'modules/component/InputFilterComponent/SingleSelectFilter';
-import TextFilter from 'modules/component/InputFilterComponent/TextFilter';
-import 'modules/home/pages/HomePage.scss';
+import 'modules/component/FormFilter/FormFilter.scss';
 import { listAvailability, listStockStatus } from 'modules/intl/constants';
-import RecommendInput from '../InputFilterComponent/RecommendInput';
 
 interface Props {
-  handleFilter(): void;
+  handleFilter(values: IFilterProduct): void;
   setFilterProduct(filterUser: IFilterProduct): void;
   filterProduct: IFilterProduct;
 }
@@ -31,7 +32,9 @@ const FormFilter = (props: Props) => {
   const [isHiddenForm, setIsHiddenForm] = React.useState(true);
   const [searchType, setSearchType] = React.useState<string[]>([]);
   const [searchVendor, setSearchVendor] = React.useState('');
+  const [vendorId, setVendorId] = React.useState('');
   const [listSearchVendor, setListSearchVendor] = React.useState<IOptionsHasDisabled[]>();
+  const [stringSearchType, setStringSearchType] = useState('');
 
   const fetchCategory = async () => {
     const res = await dispatch(
@@ -49,10 +52,6 @@ const FormFilter = (props: Props) => {
     });
     category.unshift({ value: '', label: 'Any Category', disabled: false });
     dispatch(setListCategory(category));
-  };
-
-  const onChangeFilter = (nameFilter: string, value: any) => {
-    setFilterProduct({ ...filterProduct, [nameFilter]: value });
   };
 
   const loadSearchVendor = async () => {
@@ -86,158 +85,185 @@ const FormFilter = (props: Props) => {
   }, [searchVendor]);
 
   return (
-    <form
-      style={{ display: 'flex', flexDirection: 'row', width: '100%' }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleFilter();
+    <Formik
+      initialValues={{
+        availability: '',
+        category: '',
+        count: 25,
+        order_by: 'DESC',
+        page: 1,
+        search: '',
+        search_type: '',
+        sort: 'name',
+        stock_status: 'all',
+        vendor: '',
+      }}
+      onSubmit={async (values) => {
+        values.vendor = vendorId;
+        values.search_type = searchType.join(', ');
+        handleFilter(values);
       }}
     >
-      <fieldset className="form-filter" style={{ width: '100%' }}>
-        <div className="form-filter-show">
-          {/* search keywords */}
-          <div className="mb-3" style={{ width: '100%' }}>
-            <label className="form-label">Search keywords</label>
-            <TextFilter onChangeFilter={onChangeFilter} nameFilter="search" />
-          </div>
-          {/* search Any Category */}
-          <div className="mb-3" style={{ width: '100%' }}>
-            <label htmlFor="inputEmail" className="form-label">
-              Any Category
-            </label>
-            <div className="">
-              <SingleSelectFilter
-                onChangeFilter={onChangeFilter}
-                options={categoryOptions ? categoryOptions : []}
-                nameFilter="category"
-                typeConvertValue="string"
+      <Form style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+        <fieldset className="form-filter" style={{ width: '100%' }}>
+          <div className="form-filter-show">
+            {/* search keywords */}
+            <div className="mb-3" style={{ width: '100%' }}>
+              <label className="form-label">Search keywords</label>
+              <FastField
+                name="search"
+                component={InputField}
+                label=""
+                placeholder="Search..."
+                type="text"
               />
             </div>
-          </div>
-          {/* search member ships */}
-          <div className="mb-3" style={{ width: '100%' }}>
-            <label htmlFor="inputEmail" className="form-label">
-              Stock status
-            </label>
-            <div className="">
-              <SingleSelectFilter
-                onChangeFilter={onChangeFilter}
-                options={listStockStatus}
-                nameFilter="stock_status"
-                typeConvertValue="string"
-              />
-            </div>
-          </div>
-          <button type="submit" className="btn btn-primary btn-search">
-            Search
-          </button>
-        </div>
-        {/* hidden form */}
-
-        <div className={`form-filter-hidden ${isHiddenForm ? '' : 'show'}`}>
-          <div className={`field-filter-form `}>
-            <div className="item-filter">
+            {/* search Any Category */}
+            <div className="mb-3" style={{ width: '100%' }}>
               <label htmlFor="inputEmail" className="form-label">
-                Search in:
+                Any Category
               </label>
-              <div className="wraper-search-in">
-                <div>
-                  <input
-                    type="checkbox"
-                    className=""
-                    value="name"
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        const newArrSearchType = [...searchType, e.target.value];
-                        setSearchType(newArrSearchType);
-                        setFilterProduct({
-                          ...filterProduct,
-                          search_type: newArrSearchType.join(','),
-                        });
-                      }
-                    }}
-                  />
-                  <p>Name</p>
-                </div>
-                <div>
-                  <input
-                    type="checkbox"
-                    className=""
-                    value="sku"
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        const newArrSearchType = [...searchType, e.target.value];
-                        setSearchType(newArrSearchType);
-                        setFilterProduct({
-                          ...filterProduct,
-                          search_type: newArrSearchType.join(','),
-                        });
-                      }
-                    }}
-                  />
-                  <p>SKU</p>
-                </div>
-                <div>
-                  <input
-                    type="checkbox"
-                    className=""
-                    value="description"
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        const newArrSearchType = [...searchType, e.target.value];
-                        setSearchType(newArrSearchType);
-                        setFilterProduct({
-                          ...filterProduct,
-                          search_type: newArrSearchType.join(','),
-                        });
-                      }
-                    }}
-                  />
-                  <p>Full Description</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={`field-filter-form `}>
-            <div className="item-filter">
-              <label htmlFor="inputEmail" className="form-label">
-                Availability
-              </label>
-              <div className="wraper-input-filter">
-                <SingleSelectFilter
-                  onChangeFilter={onChangeFilter}
-                  options={listAvailability}
-                  nameFilter="availability"
-                  typeConvertValue="string"
+              <div className="">
+                <FastField
+                  name="category"
+                  component={SingleSelectField}
+                  label=""
+                  placeholder="Type..."
+                  options={categoryOptions}
                 />
               </div>
             </div>
-          </div>
-          <div className={`field-filter-form `}>
-            <div className="item-filter">
+            {/* search member ships */}
+            <div className="mb-3" style={{ width: '100%' }}>
               <label htmlFor="inputEmail" className="form-label">
-                Vendor
+                Stock status
               </label>
-              <div className="wraper-input-filter">
-                <RecommendInput onChangeFilter={onChangeFilter} />
+              <div className="">
+                <FastField
+                  name="stock_status"
+                  component={SingleSelectField}
+                  label=""
+                  placeholder="Type..."
+                  options={listStockStatus}
+                />
+              </div>
+            </div>
+            <button type="submit" className="btn btn-primary btn-search">
+              Search
+            </button>
+          </div>
+          {/* hidden form */}
+
+          <div className={`form-filter-hidden ${isHiddenForm ? '' : 'show'}`}>
+            <div className={`field-filter-form `}>
+              <div className="item-filter">
+                <label htmlFor="inputEmail" className="form-label">
+                  Search in:
+                </label>
+                <div className="wraper-search-in">
+                  <div>
+                    <input
+                      type="checkbox"
+                      className=""
+                      value="name"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          const newArrSearchType = [...searchType, e.target.value];
+                          setSearchType(newArrSearchType);
+                        } else {
+                          const newArrSearchType = searchType;
+                          console.log(newArrSearchType.indexOf(e.target.value));
+                          newArrSearchType.splice(newArrSearchType.indexOf(e.target.value), 1);
+                        }
+                      }}
+                    />
+                    <p>Name</p>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      className=""
+                      value="sku"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          const newArrSearchType = [...searchType, e.target.value];
+                          setSearchType(newArrSearchType);
+                        } else {
+                          const newArrSearchType = searchType;
+                          console.log(newArrSearchType.indexOf(e.target.value));
+                          newArrSearchType.splice(newArrSearchType.indexOf(e.target.value), 1);
+                        }
+                      }}
+                    />
+                    <p>SKU</p>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      className=""
+                      value="description"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          const newArrSearchType = [...searchType, e.target.value];
+                          setSearchType(newArrSearchType);
+                        } else {
+                          const newArrSearchType = searchType;
+                          console.log(newArrSearchType.indexOf(e.target.value));
+                          newArrSearchType.splice(newArrSearchType.indexOf(e.target.value), 1);
+                        }
+                      }}
+                    />
+                    <p>Full Description</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={`field-filter-form `}>
+              <div className="item-filter">
+                <label htmlFor="inputEmail" className="form-label">
+                  Availability
+                </label>
+                <div className="wraper-input-filter">
+                  <FastField
+                    name="availability"
+                    component={SingleSelectField}
+                    label=""
+                    placeholder=""
+                    options={listAvailability}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={`field-filter-form `}>
+              <div className="item-filter">
+                <label htmlFor="inputEmail" className="form-label">
+                  Vendor
+                </label>
+                <div className="wraper-input-filter">
+                  <AutocompleteField
+                    handleSetValue={setVendorId}
+                    name="vendors"
+                    defaultIdVendor=""
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <span
-          className="sortcut-form"
-          onClick={() => {
-            setIsHiddenForm(!isHiddenForm);
-          }}
-        >
-          {isHiddenForm ? (
-            <FontAwesomeIcon icon={faAngleDoubleDown} />
-          ) : (
-            <FontAwesomeIcon icon={faAngleDoubleUp} />
-          )}
-        </span>
-      </fieldset>
-    </form>
+          <span
+            className="sortcut-form"
+            onClick={() => {
+              setIsHiddenForm(!isHiddenForm);
+            }}
+          >
+            {isHiddenForm ? (
+              <FontAwesomeIcon icon={faAngleDoubleDown} />
+            ) : (
+              <FontAwesomeIcon icon={faAngleDoubleUp} />
+            )}
+          </span>
+        </fieldset>
+      </Form>
+    </Formik>
   );
 };
 

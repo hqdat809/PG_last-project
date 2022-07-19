@@ -10,7 +10,7 @@ import 'flatpickr/dist/themes/material_green.css';
 
 import { API_PATHS } from 'configs/api';
 import { IDeleteUSer, IFilterUser } from 'models/user';
-import { getListUser } from 'modules/auth/redux/userReducer';
+import { getListUser } from 'modules/home/redux/userReducer';
 import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import FormFilterUser from 'modules/component/FormFilter/FormFilterUser';
@@ -137,11 +137,7 @@ const HomePage = () => {
     <div id="home-page">
       {/* form filter */}
       <div className="form-filter">
-        <FormFilterUser
-          handleFilter={handleFilter}
-          setFilterUser={setFilterUser}
-          filterUser={filterUser}
-        />
+        <FormFilterUser handleFilter={handleFilter} />
       </div>
       <button className="btn-add-user" onClick={handleClickAddUser}>
         Add User

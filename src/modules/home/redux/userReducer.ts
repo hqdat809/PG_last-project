@@ -1,6 +1,6 @@
 import { IGetUser } from 'models/user';
 import { ActionType, createCustomAction, getType } from 'typesafe-actions';
-import { IOptionsHasDisabled } from './../../../models/user';
+import { IOptionsHasDisabled } from '../../../models/user';
 
 export interface UserManagerState {
   listUser?: IGetUser[];

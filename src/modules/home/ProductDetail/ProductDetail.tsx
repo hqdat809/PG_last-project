@@ -19,7 +19,7 @@ import InputField from 'CustomField/InputField/InputField';
 import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
 import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
 import { IBranch, IProductDetail } from 'models/product';
-import { setListBranch } from 'modules/auth/redux/productReducer';
+import { setListBranch } from 'modules/home/redux/productReducer';
 import { CreateProductSchema } from 'modules/auth/utils';
 import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';

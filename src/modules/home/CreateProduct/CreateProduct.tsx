@@ -17,7 +17,7 @@ import InputField from 'CustomField/InputField/InputField';
 import MultiSelectField from 'CustomField/SelectField/MultiSelectField';
 import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
 import { IBranch } from 'models/product';
-import { setListBranch } from 'modules/auth/redux/productReducer';
+import { setListBranch } from 'modules/home/redux/productReducer';
 import { CreateProductSchema } from 'modules/auth/utils';
 import LoadingPage from 'modules/common/components/LoadingPage';
 import { fetchThunk } from 'modules/common/redux/thunk';
@@ -159,7 +159,7 @@ const CreateProduct = (props: Props) => {
       }}
       validationSchema={CreateProductSchema}
     >
-      {({ errors, values, handleChange }) => {
+      {({ values, dirty }) => {
         flatpickr('.date-arrival', {
           defaultDate: new Date(),
           dateFormat: 'Y-m-d',
@@ -639,7 +639,11 @@ const CreateProduct = (props: Props) => {
                     </div>
                   </div>
                   <div className="footer">
-                    <button type="submit" className="btn btn-primary btn-submit-create">
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-submit-create"
+                      disabled={!dirty}
+                    >
                       Create account
                     </button>
                   </div>

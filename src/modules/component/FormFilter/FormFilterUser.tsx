@@ -15,7 +15,7 @@ import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
 import flatpickr from 'flatpickr';
 import { FastField, Form, Formik } from 'formik';
 import { ICountry, IFilterUser, IRolesUser } from 'models/user';
-import { setListCountry, setListRole } from 'modules/auth/redux/userReducer';
+import { setListCountry, setListRole } from 'modules/home/redux/userReducer';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import 'modules/component/FormFilter/FormFilter.scss';
 import { listMemberShip, listStatus } from 'modules/intl/constants';
@@ -23,12 +23,10 @@ import moment from 'moment';
 
 interface Props {
   handleFilter(values: IFilterUser): void;
-  setFilterUser(filterUser: IFilterUser): void;
-  filterUser: IFilterUser;
 }
 
 const FormFilter = (props: Props) => {
-  const { handleFilter, setFilterUser, filterUser } = props;
+  const { handleFilter } = props;
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const countryOptions = useSelector((state: AppState) => state.userManage.listCountry);
   const roleOptions = useSelector((state: AppState) => state.userManage.listRole);
@@ -101,6 +99,7 @@ const FormFilter = (props: Props) => {
               values.date_range = formatSelectedDate;
             },
           });
+
           return (
             <Form style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
               <fieldset className="form-filter" style={{ width: '100%' }}>
@@ -118,7 +117,7 @@ const FormFilter = (props: Props) => {
                   </div>
                   {/* search user types */}
                   <div className="mb-3" style={{ width: '100%' }}>
-                    <label className="form-label">User types</label>
+                    <label className="form-label">User type</label>
                     <FastField
                       name="types"
                       component={MultiSelectField}
@@ -157,6 +156,7 @@ const FormFilter = (props: Props) => {
                     Search
                   </button>
                 </div>
+
                 {/* hidden form */}
                 <div className={`form-filter-hidden ${isHiddenForm ? '' : 'show'}`}>
                   <div className={`left-filter-form ${isHiddenForm ? '' : 'show'}`}>
@@ -217,13 +217,13 @@ const FormFilter = (props: Props) => {
                       </div>
                     </div>
                   </div>
+
                   <div className={`right-filter-form ${isHiddenForm ? '' : 'show'}`}>
                     <div className="item-filter">
                       <label htmlFor="inputEmail" className="form-label">
                         User activity
                       </label>
                       <div className="wraper-input-filter" style={{ display: 'flex', gap: '20px' }}>
-                        {/* <UserActivityRadio setFilterUser={setFilterUser} filterUser={filterUser} /> */}
                         <FastField
                           name="date_type"
                           component={GroupRadio}

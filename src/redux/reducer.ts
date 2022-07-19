@@ -1,7 +1,7 @@
-import productReducer, { ProductState } from './../modules/auth/redux/productReducer';
+import productReducer, { ProductState } from '../modules/home/redux/productReducer';
 import { connectRouter, RouterState } from 'connected-react-router';
 import { History } from 'history';
-import userReducer, { UserManagerState } from 'modules/auth/redux/userReducer';
+import userReducer, { UserManagerState } from 'modules/home/redux/userReducer';
 import { combineReducers } from 'redux';
 import authReducer, { AuthState } from '../modules/auth/redux/authReducer';
 import intlReducer, { IntlState } from '../modules/intl/redux/intlReducer';
