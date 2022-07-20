@@ -9,6 +9,10 @@
     height: 100%;
     min-height: 100vh;
 
+    &.sorted {
+        margin-left: 80px !important;
+    }
+
     .btn-add-user {
         width: 150px;
         padding: 5px 20px;
@@ -311,6 +315,10 @@
         background-color: var(--primary-color);
         bottom: 0;
         box-shadow: 0 0 13px 0 #b18aff;
+
+        &.sorted {
+            width: 91%!important;
+        }
 
         .btn-multi-delete {
             padding: 10px 20px;

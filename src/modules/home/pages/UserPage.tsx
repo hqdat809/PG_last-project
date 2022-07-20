@@ -2,7 +2,7 @@ import { ROUTES } from 'configs/routes';
 import { push } from 'connected-react-router';
 import flatpickr from 'flatpickr';
 import { Action } from 'redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { ThunkDispatch } from 'redux-thunk';
 import moment from 'moment';
@@ -25,6 +25,7 @@ import { IBranch } from 'models/product';
 
 const HomePage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const isSortSideBar = useSelector((state: AppState) => state.userManage.isSortSideBar);
 
   const modal = document.getElementsByClassName('modal');
 
@@ -198,7 +199,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div id="home-page">
+    <div id="home-page" className={`${isSortSideBar ? 'sorted' : ''}`}>
       {/* form filter */}
       <div className="form-filter">
         <FormFilterUser handleFilter={handleFilter} />
@@ -258,7 +259,7 @@ const HomePage = () => {
         handleConfirmDelete={handleConfirmDelete}
       />
       {/* manage delete multi user */}
-      <div className="footer">
+      <div className={`footer ${isSortSideBar ? 'sorted' : ''}`}>
         <button className="btn-multi-delete" onClick={() => handleDelete()}>
           Remove selected
         </button>

@@ -6,6 +6,10 @@
     position: fixed;
     width: var(--sidebar-width);
 
+    &.sorted {
+        width: 80px!important;
+    }
+
     h1, a {
         color: #fff;
     }

@@ -14,10 +14,12 @@ import 'modules/home/pages/HomePage.scss';
 import { AppState } from 'redux/reducer';
 import { ACCESS_TOKEN_KEY, IS_REMEMBER, USER_INFO } from 'utils/constants';
 import 'modules/component/Header/Header.scss';
+import { setIsSortSideBar } from 'modules/home/redux/userReducer';
 
 const Header = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const userInfo = useSelector((state: AppState) => state.profile.user);
+  const isSortSideBar = useSelector((state: AppState) => state.userManage.isSortSideBar);
 
   const handleLogout = () => {
     Cookies.remove(IS_REMEMBER);
@@ -27,9 +29,15 @@ const Header = () => {
     dispatch(clearUserInfo());
     dispatch(replace(ROUTES.login));
   };
+
   return (
     <div id="header">
-      <menu className="header-bars">
+      <menu
+        className="header-bars"
+        onClick={() => {
+          dispatch(setIsSortSideBar(!isSortSideBar));
+        }}
+      >
         <FontAwesomeIcon icon={faBars} />
       </menu>
       <div className="header-title">

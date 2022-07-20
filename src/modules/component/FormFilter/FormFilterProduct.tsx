@@ -1,7 +1,7 @@
 import { faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'flatpickr/dist/themes/material_green.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -12,20 +12,17 @@ import InputField from 'CustomField/InputField/InputField';
 import SingleSelectField from 'CustomField/SelectField/SingleSelectField';
 import { FastField, Form, Formik } from 'formik';
 import { IFilterProduct, IVendorList } from 'models/product';
-import { ICategory, IOptionsHasDisabled } from 'models/user';
-import { setListCategory } from 'modules/home/redux/productReducer';
+import { IOptionsHasDisabled } from 'models/user';
 import { fetchThunk } from 'modules/common/redux/thunk';
 import 'modules/component/FormFilter/FormFilter.scss';
 import { listAvailability, listStockStatus } from 'modules/intl/constants';
 
 interface Props {
   handleFilter(values: IFilterProduct): void;
-  setFilterProduct(filterUser: IFilterProduct): void;
-  filterProduct: IFilterProduct;
 }
 
 const FormFilter = (props: Props) => {
-  const { handleFilter, setFilterProduct, filterProduct } = props;
+  const { handleFilter } = props;
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const categoryOptions = useSelector((state: AppState) => state.productManage.listCategory);
 

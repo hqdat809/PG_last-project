@@ -191,6 +191,7 @@ const FormFilter = (props: Props) => {
                   </div>
 
                   <div className={`right-filter-form ${isHiddenForm ? '' : 'show'}`}>
+                    {/* User activity */}
                     <div className="item-filter">
                       <label htmlFor="inputEmail" className="form-label">
                         User activity
@@ -205,6 +206,7 @@ const FormFilter = (props: Props) => {
                         />
                       </div>
                     </div>
+                    {/* Date selector */}
                     <div className="item-filter">
                       <label htmlFor="inputEmail" className="form-label"></label>
                       <div className="wraper-input-filter">
@@ -212,6 +214,7 @@ const FormFilter = (props: Props) => {
                           type="text"
                           id="disabledTextInput"
                           className="form-control date-selector"
+                          placeholder="Enter date range"
                           style={{ paddingBottom: '11px' }}
                         />
                       </div>

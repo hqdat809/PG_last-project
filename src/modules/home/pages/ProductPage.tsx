@@ -3,7 +3,7 @@ import { push } from 'connected-react-router';
 import { AppState } from 'redux/reducer';
 import { ThunkDispatch } from 'redux-thunk';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Action } from 'redux';
 import 'flatpickr/dist/themes/material_green.css';
 
@@ -21,6 +21,7 @@ import { ItemPerPage } from 'modules/intl/constants';
 
 const ContactPage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
+  const isSortSideBar = useSelector((state: AppState) => state.userManage.isSortSideBar);
 
   const modal = document.getElementsByClassName('modal');
 
@@ -137,14 +138,10 @@ const ContactPage = () => {
   }, [page]);
 
   return (
-    <div id="home-page">
+    <div id="home-page" className={`${isSortSideBar ? 'sorted' : ''}`}>
       {/* form filter */}
       <div className="form-filter">
-        <FormFilterProduct
-          handleFilter={handleFilter}
-          setFilterProduct={setFilterProduct}
-          filterProduct={filterProduct}
-        />
+        <FormFilterProduct handleFilter={handleFilter} />
       </div>
       <button className="btn-add-user" onClick={handleClickAddProduct}>
         Add Product
@@ -200,7 +197,7 @@ const ContactPage = () => {
         handleConfirmDelete={handleConfirmDelete}
       />
       {/* manage delete multi user */}
-      <div className="footer">
+      <div className={`footer ${isSortSideBar ? 'sorted' : ''}`}>
         <button className="btn-multi-delete" onClick={() => handleDelete()}>
           Remove selected
         </button>
