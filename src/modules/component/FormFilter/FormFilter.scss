@@ -122,6 +122,7 @@
 
     // css select
     .react-select-container {
+        border: 1px solid var(--primary-color) !important;
         .react-select__control {
             background-color: var(--background-color)!important;
         }

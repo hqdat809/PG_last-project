@@ -94,15 +94,6 @@ const ContactPage = () => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    setFilterProduct({ ...filterProduct, page: page });
-    if (!isFiltering) {
-      fetchData(page);
-    } else {
-      handleChangePage(page);
-    }
-  }, [page]);
-
   const handleDelete = () => {
     modal[0].classList.add('active');
   };
@@ -135,6 +126,15 @@ const ContactPage = () => {
   const handleClickAddProduct = () => {
     dispatch(push(ROUTES.createProduct));
   };
+
+  useEffect(() => {
+    setFilterProduct({ ...filterProduct, page: page });
+    if (!isFiltering) {
+      fetchData(page);
+    } else {
+      handleChangePage(page);
+    }
+  }, [page]);
 
   return (
     <div id="home-page">

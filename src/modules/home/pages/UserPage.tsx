@@ -102,6 +102,7 @@ const HomePage = () => {
       return { value: item.id, label: item.name, disable: false };
     });
     dispatch(setListRole(roleOptionSelect));
+    console.log('fetch roles, ', roleOptionSelect);
   };
 
   const fetchCountry = async () => {
@@ -114,6 +115,7 @@ const HomePage = () => {
     selectCountry.unshift({ value: '', label: 'All country', disabled: false });
 
     dispatch(setListCountry(selectCountry));
+    console.log('fetch country, ', selectCountry);
   };
 
   const handleFilter = async (values: IFilterUser) => {
